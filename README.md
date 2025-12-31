@@ -4,6 +4,8 @@ A complete educational repository for my **Coding With AI** course on AI-assiste
 
 This repository does NOT contain the actual code for DevStash. That can be found in a separate repo. This is a resource for documentation, context, notes, etc for people taking the course.
 
+**The course is scheduled to be released Feb 2026 at https://traversymedia.com**
+
 ## Overview
 
 This repository contains:
