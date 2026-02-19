@@ -1,58 +1,26 @@
-# Feature: Explain Code
+# AI Explain Code
 
 ## Overview
 
-AI-powered code explanation for **Snippets and Commands only** in ItemDrawer. Pro users only.
+Add AI-powered code explanation for snippets and commands in the item drawer using OpenAI "gpt-5-nano" model. These are the two item types where explanation adds value — actual code and terminal commands. Other types (prompts, notes, links, files, images) are already human-readable or non-code. Pro-only feature. Explanation displays inline via a tab interface in the code editor, not as a separate panel.
 
-These are the two item types where "explain" makes sense - actual code and terminal commands. Other types (Prompts, Notes, URLs, Files, Images) are already human-readable or non-code content.
+## Requirements
 
-## UI Design
+- Create an `explainCode` server action with auth, Pro gating, Zod validation, rate limiting
+- Add "Explain" button (Sparkles icon) to code editor window controls header (next to Copy button)
+- Only show for snippet and command types in the item drawer (not in create/edit forms)
+- After generating, show Code/Explain tabs in the editor header to toggle between views
+- Render explanation as markdown in the same container space as the code editor
+- Explanation should be concise (~200-300 words) covering what the code does and key concepts
+- Loading state: Loader2 spinner while generating
+- Pro gating in UI: show Crown icon + tooltip ("AI features require Pro subscription") for free users
+- Error handling via toast (Pro gating, rate limit, AI service errors)
+- Follow existing patterns
+- Unit tests for server action
 
-- **Button**: "Explain" with Sparkles icon in CodeEditor window controls header (next to Copy button)
-- **Display**: Tab-based interface - after clicking Explain, Code/Explain tabs appear in the header
-- **States**: Loading spinner while generating, error toast on failure, Pro-gating with tooltip and Crown icon
+## Notes
 
-### Tab Behavior
-
-- Initially shows only "Explain" button (no tabs)
-- After first explanation is generated, shows "Code" and "Explain" tabs
-- Tabs allow switching between code view and explanation view
-- Explanation renders as markdown in the same container space
-
-## Implementation
-
-### Server Action (`src/actions/ai.ts`)
-
-```typescript
-explainCode({ content, language?, title? }) => { success, explanation?, error? }
-```
-
-- Validate Pro status
-- Send to GPT-4o Mini with prompt for concise explanation
-- Return explanation (~200-300 words)
-
-### Components
-
-1. Update `src/components/ui/code-editor.tsx` - Added explain functionality directly into CodeEditor:
-
-   - New props: `showExplain`, `isPro`, `title`
-   - WindowControls updated with Explain button and Code/Explain tabs
-   - Tab state management for switching between code and explanation views
-   - Uses MDEditor.Markdown to render explanations
-
-2. Update `ItemDrawer.tsx` - Pass new props to CodeEditor for snippet & command types:
-   - `showExplain={true}`
-   - `isPro={isPro}`
-   - `title={item.title}`
-
-## Pro Gating
-
-- Button shows Crown icon for non-Pro users
-- Tooltip: "AI features require Pro subscription"
-- Click shows toast error for non-Pro
-- Server validates Pro status before API call
-
-## Out of Scope
-
-- Saving explanations to database
-- Explain in create/edit forms
+- Explanations are not saved to the database — regenerated on each click
+- Not available in create/edit forms, only in the item drawer read view
+- `isPro` needs to be passed as a prop to the item drawer / code editor
+- See `docs/ai-integration-plan.md` for full architectural context

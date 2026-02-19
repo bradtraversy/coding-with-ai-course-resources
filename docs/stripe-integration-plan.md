@@ -1,300 +1,379 @@
-# Stripe Integration Plan for DevStash Pro
+# Stripe Integration Plan
+
+> Comprehensive plan for adding Stripe subscription billing to DevStash Pro ($8/mo or $72/yr).
+
+---
+
+## Table of Contents
+
+- [Current State Analysis](#current-state-analysis)
+- [Stripe Dashboard Setup](#stripe-dashboard-setup)
+- [Implementation Order](#implementation-order)
+- [Phase 1: Stripe SDK & Utilities](#phase-1-stripe-sdk--utilities)
+- [Phase 2: Session & Auth Changes](#phase-2-session--auth-changes)
+- [Phase 3: Checkout Flow](#phase-3-checkout-flow)
+- [Phase 4: Webhook Handler](#phase-4-webhook-handler)
+- [Phase 5: Customer Portal](#phase-5-customer-portal)
+- [Phase 6: Feature Gating](#phase-6-feature-gating)
+- [Phase 7: UI Components](#phase-7-ui-components)
+- [Files Summary](#files-summary)
+- [Testing Checklist](#testing-checklist)
+
+---
 
 ## Current State Analysis
 
-### User Model Schema
+### What's Already in Place
 
-The User model in `prisma/schema.prisma` already has the necessary fields for Stripe integration:
+| Area | Status | Details |
+|------|--------|---------|
+| **Database schema** | Ready | `isPro`, `stripeCustomerId`, `stripeSubscriptionId` fields on User model |
+| **Environment variables** | Ready | `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_ID_MONTHLY`, `STRIPE_PRICE_ID_YEARLY` in env.example |
+| **NextAuth v5** | Ready | JWT strategy with `user.id` in session. Needs `isPro` added |
+| **Session types** | Needs update | `next-auth.d.ts` only has `id` on session.user |
+| **Rate limiting** | Ready | Upstash Redis infra exists, can extend for usage limits |
+| **UI Pro badges** | Ready | Sidebar and NewItemDialog show "PRO" badges on File/Image types |
+| **Pricing page** | Ready | PricingSection.tsx with Free/Pro comparison, monthly/yearly toggle |
 
-```prisma
-model User {
-  id                   String   @id @default(cuid())
-  email                String   @unique
-  isPro                Boolean  @default(false)
-  stripeCustomerId     String?
-  stripeSubscriptionId String?
-  // ... other fields
-}
-```
+### What Needs to Be Built
 
-**Status:** Schema is ready for Stripe integration.
+| Area | Description |
+|------|-------------|
+| **Stripe SDK** | `src/lib/stripe.ts` - SDK initialization |
+| **Checkout API** | `src/app/api/stripe/checkout/route.ts` - Create checkout sessions |
+| **Webhook handler** | `src/app/api/webhooks/stripe/route.ts` - Process Stripe events |
+| **Customer portal** | `src/app/api/stripe/portal/route.ts` - Billing management redirect |
+| **Usage limits** | `src/lib/usage.ts` - Check item/collection limits |
+| **Feature gating** | Modify `createItem`, `createCollection`, upload route |
+| **Session isPro** | Add `isPro` to JWT callback, session type, auth config |
+| **Billing UI** | Billing section on settings page, upgrade prompts |
 
-### Authentication Setup
+### Key Files to Modify
 
-- **NextAuth v5** with JWT strategy (`src/lib/auth.config.ts`)
-- Session includes `user.id` via JWT callback
-- `getCurrentUserId()` helper for server actions (`src/lib/auth.ts`)
-- Protected routes: `/dashboard`, `/items`, `/collections`, `/profile`, `/settings`, `/favorites`
-
-### Server Action Patterns
-
-All server actions follow a consistent pattern:
-
-- Use `getCurrentUserId()` for authentication
-- Return `{ success: boolean, error?: string, data?: T }`
-- Validation with Zod schemas
-- Error handling with `logError()` utility
-
-### API Route Patterns
-
-- CSRF protection via `validateOrigin()` helper (`src/lib/api-utils.ts`)
-- Authentication check: `const session = await auth()`
-- Consistent error responses with proper HTTP status codes
-
-### Existing Subscription/Payment Code
-
-**None exists.** No Stripe or payment-related code is currently in the codebase.
+| File | Changes |
+|------|---------|
+| `src/auth.ts` | Add `isPro` to JWT callback (always sync from DB) |
+| `src/types/next-auth.d.ts` | Add `isPro` to Session and JWT types |
+| `src/actions/items.ts` | Add usage limit check in `createItem` |
+| `src/actions/collections.ts` | Add usage limit check in `createCollection` |
+| `src/app/api/upload/route.ts` | Add Pro check before file/image uploads |
+| `src/app/settings/page.tsx` | Add BillingSettings section |
+| `src/components/homepage/PricingSection.tsx` | Link Pro button to checkout |
 
 ---
 
-## Feature Gating Requirements
+## Stripe Dashboard Setup
 
-### Free Tier Limits (from PricingSection.tsx)
+Before writing code, configure these in the [Stripe Dashboard](https://dashboard.stripe.com):
 
-| Resource            | Free | Pro       |
-| ------------------- | ---- | --------- |
-| Items               | 50   | Unlimited |
-| Collections         | 3    | Unlimited |
-| Full-text search    | Yes  | Yes       |
-| Syntax highlighting | Yes  | Yes       |
-| AI features         | No   | Yes       |
-| File uploads        | No   | Yes       |
-| Custom item types   | No   | Yes       |
-| Export (JSON/ZIP)   | No   | Yes       |
+### 1. Create Product
 
-### Where Limits Need to Be Enforced
+- **Name:** DevStash Pro
+- **Description:** Unlimited items, collections, file uploads, and AI features
 
-1. **Item Creation** (`src/actions/items.ts:createItem`)
+### 2. Create Two Prices
 
-   - Check item count before creating new items
-   - Block file/image uploads for free users
+| Price | Amount | Interval | Notes |
+|-------|--------|----------|-------|
+| Monthly | $8.00 USD | Monthly | Copy Price ID to `STRIPE_PRICE_ID_MONTHLY` |
+| Yearly | $72.00 USD | Yearly | Copy Price ID to `STRIPE_PRICE_ID_YEARLY` |
 
-2. **Collection Creation** (`src/actions/collections.ts:createCollection`)
+### 3. Configure Customer Portal
 
-   - Check collection count before creating
+Go to **Settings > Billing > Customer Portal** and enable:
+- Invoice history
+- Subscription cancellation
+- Subscription plan switching (between monthly/yearly)
+- Payment method management
 
-3. **File Upload API** (`src/app/api/upload/route.ts`)
+### 4. Create Webhook Endpoint
 
-   - Block uploads for free users
+Go to **Developers > Webhooks** and add:
+- **URL:** `https://your-domain.com/api/webhooks/stripe`
+- **Events to listen for:**
+  - `checkout.session.completed`
+  - `invoice.paid`
+  - `invoice.payment_failed`
+  - `customer.subscription.updated`
+  - `customer.subscription.deleted`
+- Copy the **Signing secret** to `STRIPE_WEBHOOK_SECRET`
 
-4. **AI Features** (not yet implemented)
-
-   - Will need Pro gating when added
-
-5. **Export Features** (not yet implemented)
-   - Will need Pro gating when added
-
----
-
-## Implementation Plan
-
-### Phase 1: Dependencies & Environment Setup
-
-#### 1.1 Install Stripe SDK
-
-```bash
-npm install stripe
-```
-
-#### 1.2 Environment Variables
-
-Add to `.env`:
+### 5. Environment Variables
 
 ```env
-# Stripe
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_PUBLISHABLE_KEY=pk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PRICE_ID_MONTHLY=price_...
-STRIPE_PRICE_ID_YEARLY=price_...
+STRIPE_SECRET_KEY="sk_test_..."          # From API keys
+STRIPE_PUBLISHABLE_KEY="pk_test_..."     # From API keys
+STRIPE_WEBHOOK_SECRET="whsec_..."        # From webhook endpoint
+STRIPE_PRICE_ID_MONTHLY="price_..."      # From monthly price
+STRIPE_PRICE_ID_YEARLY="price_..."       # From yearly price
 ```
 
-### Phase 2: Stripe Configuration
+---
 
-#### 2.1 Create Stripe Client (`src/lib/stripe.ts`)
+## Implementation Order
+
+```
+Phase 1: Stripe SDK & Utilities          (lib/stripe.ts, lib/usage.ts)
+Phase 2: Session & Auth Changes           (auth.ts, next-auth.d.ts)
+Phase 3: Checkout Flow                    (API route + success page)
+Phase 4: Webhook Handler                  (API route for Stripe events)
+Phase 5: Customer Portal                  (API route for billing management)
+Phase 6: Feature Gating                   (server actions + upload route)
+Phase 7: UI Components                    (settings billing, upgrade prompts)
+```
+
+---
+
+## Phase 1: Stripe SDK & Utilities
+
+### Create `src/lib/stripe.ts`
+
+Initialize the Stripe Node SDK.
 
 ```typescript
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing STRIPE_SECRET_KEY environment variable');
-}
-
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2024-12-18.acacia',
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   typescript: true,
 });
-
-export const STRIPE_CONFIG = {
-  priceIdMonthly: process.env.STRIPE_PRICE_ID_MONTHLY!,
-  priceIdYearly: process.env.STRIPE_PRICE_ID_YEARLY!,
-};
 ```
 
-### Phase 3: Subscription Actions
+**Install:** `npm install stripe`
 
-#### 3.1 Create Subscription Actions (`src/actions/subscription.ts`)
+### Create `src/lib/usage.ts`
+
+Utility functions to check user usage against free tier limits.
 
 ```typescript
-'use server';
-
-import { z } from 'zod';
-import { stripe, STRIPE_CONFIG } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
-import { getCurrentUserId } from '@/lib/auth';
-import { logError } from '@/lib/logger';
 
-export type SubscriptionStatus = {
-  isPro: boolean;
-  subscriptionId: string | null;
-  currentPeriodEnd: Date | null;
-  cancelAtPeriodEnd: boolean;
-  plan: 'monthly' | 'yearly' | null;
-};
+export const FREE_TIER_LIMITS = {
+  MAX_ITEMS: 50,
+  MAX_COLLECTIONS: 3,
+} as const;
 
-const billingIntervalSchema = z.enum(['monthly', 'yearly']);
+interface UsageResult {
+  itemCount: number;
+  collectionCount: number;
+  canCreateItem: boolean;
+  canCreateCollection: boolean;
+}
 
-export async function getSubscriptionStatus(): Promise<SubscriptionStatus> {
-  const userId = await getCurrentUserId();
-
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-      isPro: true,
-      stripeSubscriptionId: true,
-    },
-  });
-
-  if (!user?.stripeSubscriptionId) {
-    return {
-      isPro: user?.isPro ?? false,
-      subscriptionId: null,
-      currentPeriodEnd: null,
-      cancelAtPeriodEnd: false,
-      plan: null,
-    };
-  }
-
-  const subscription = await stripe.subscriptions.retrieve(
-    user.stripeSubscriptionId
-  );
+/**
+ * Get user's current usage and whether they can create more resources
+ */
+export async function getUserUsage(userId: string, isPro: boolean): Promise<UsageResult> {
+  const [itemCount, collectionCount] = await Promise.all([
+    prisma.item.count({ where: { userId } }),
+    prisma.collection.count({ where: { userId } }),
+  ]);
 
   return {
-    isPro: user.isPro,
-    subscriptionId: subscription.id,
-    currentPeriodEnd: new Date(subscription.current_period_end * 1000),
-    cancelAtPeriodEnd: subscription.cancel_at_period_end,
-    plan:
-      subscription.items.data[0]?.price.id === STRIPE_CONFIG.priceIdMonthly
-        ? 'monthly'
-        : 'yearly',
+    itemCount,
+    collectionCount,
+    canCreateItem: isPro || itemCount < FREE_TIER_LIMITS.MAX_ITEMS,
+    canCreateCollection: isPro || collectionCount < FREE_TIER_LIMITS.MAX_COLLECTIONS,
   };
 }
 
-export async function createCheckoutSession(
-  interval: 'monthly' | 'yearly'
-): Promise<{ url: string } | { error: string }> {
-  const userId = await getCurrentUserId();
+/**
+ * Check if user can create an item (quick check, no full usage fetch)
+ */
+export async function canCreateItem(userId: string, isPro: boolean): Promise<boolean> {
+  if (isPro) return true;
+  const count = await prisma.item.count({ where: { userId } });
+  return count < FREE_TIER_LIMITS.MAX_ITEMS;
+}
 
-  const validated = billingIntervalSchema.safeParse(interval);
-  if (!validated.success) {
-    return { error: 'Invalid billing interval' };
+/**
+ * Check if user can create a collection (quick check)
+ */
+export async function canCreateCollection(userId: string, isPro: boolean): Promise<boolean> {
+  if (isPro) return true;
+  const count = await prisma.collection.count({ where: { userId } });
+  return count < FREE_TIER_LIMITS.MAX_COLLECTIONS;
+}
+```
+
+---
+
+## Phase 2: Session & Auth Changes
+
+### Modify `src/types/next-auth.d.ts`
+
+Add `isPro` to Session and JWT types.
+
+```typescript
+import 'next-auth'
+
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string
+      isPro: boolean
+      name?: string | null
+      email?: string | null
+      image?: string | null
+    }
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    id?: string
+    isPro?: boolean
+  }
+}
+```
+
+### Modify `src/auth.ts`
+
+Update the JWT callback to always sync `isPro` from the database. This ensures the session reflects webhook-triggered changes without relying on `trigger === "update"`, which does not reliably work for server-side updates (like Stripe webhooks).
+
+**Current JWT callback (line 80):**
+```typescript
+jwt({ token, user }) {
+  if (user?.id) {
+    token.id = user.id
+  }
+  return token
+},
+```
+
+**Updated JWT callback:**
+```typescript
+async jwt({ token, user }) {
+  if (user?.id) {
+    token.id = user.id
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { email: true, stripeCustomerId: true },
-  });
-
-  if (!user) {
-    return { error: 'User not found' };
+  // Always sync isPro from database to catch webhook updates
+  if (token.id) {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: token.id as string },
+      select: { isPro: true },
+    });
+    token.isPro = dbUser?.isPro ?? false;
   }
 
+  return token;
+},
+```
+
+**Updated session callback (line 87):**
+```typescript
+session({ session, token }) {
+  if (token?.id && session.user) {
+    session.user.id = token.id as string
+    session.user.isPro = token.isPro ?? false
+  }
+  return session
+},
+```
+
+> **Trade-off:** This adds one small DB query (`SELECT isPro FROM users WHERE id = ?`) per session validation. The query is indexed on primary key and returns a single boolean, so it's extremely fast. The benefit is that `session.user.isPro` is always accurate after a Stripe webhook updates the database.
+
+---
+
+## Phase 3: Checkout Flow
+
+### Create `src/app/api/stripe/checkout/route.ts`
+
+Creates a Stripe Checkout Session and returns the URL.
+
+```typescript
+import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
+import { stripe } from '@/lib/stripe';
+import { prisma } from '@/lib/prisma';
+
+export async function POST(request: Request) {
   try {
-    // Create or retrieve customer
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { priceId } = await request.json();
+
+    // Validate price ID
+    const validPriceIds = [
+      process.env.STRIPE_PRICE_ID_MONTHLY,
+      process.env.STRIPE_PRICE_ID_YEARLY,
+    ];
+
+    if (!priceId || !validPriceIds.includes(priceId)) {
+      return NextResponse.json({ error: 'Invalid price' }, { status: 400 });
+    }
+
+    // Get or create Stripe customer
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { stripeCustomerId: true, email: true },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
     let customerId = user.stripeCustomerId;
 
     if (!customerId) {
       const customer = await stripe.customers.create({
         email: user.email,
-        metadata: { userId },
+        metadata: { userId: session.user.id },
       });
+
       customerId = customer.id;
 
       await prisma.user.update({
-        where: { id: userId },
+        where: { id: session.user.id },
         data: { stripeCustomerId: customerId },
       });
     }
 
-    const priceId =
-      interval === 'monthly'
-        ? STRIPE_CONFIG.priceIdMonthly
-        : STRIPE_CONFIG.priceIdYearly;
-
-    const session = await stripe.checkout.sessions.create({
+    // Create checkout session
+    const checkoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${process.env.AUTH_URL}/settings?success=true`,
-      cancel_url: `${process.env.AUTH_URL}/settings?canceled=true`,
-      metadata: { userId },
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/settings?upgraded=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/settings`,
+      metadata: { userId: session.user.id },
     });
 
-    return { url: session.url! };
+    return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
-    logError('Failed to create checkout session:', error);
-    return { error: 'Failed to create checkout session' };
-  }
-}
-
-export async function createBillingPortalSession(): Promise<
-  { url: string } | { error: string }
-> {
-  const userId = await getCurrentUserId();
-
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { stripeCustomerId: true },
-  });
-
-  if (!user?.stripeCustomerId) {
-    return { error: 'No billing account found' };
-  }
-
-  try {
-    const session = await stripe.billingPortal.sessions.create({
-      customer: user.stripeCustomerId,
-      return_url: `${process.env.AUTH_URL}/settings`,
-    });
-
-    return { url: session.url };
-  } catch (error) {
-    logError('Failed to create billing portal session:', error);
-    return { error: 'Failed to access billing portal' };
+    console.error('Checkout error:', error);
+    return NextResponse.json(
+      { error: 'Failed to create checkout session' },
+      { status: 500 }
+    );
   }
 }
 ```
 
-### Phase 4: Webhook Handler
+---
 
-#### 4.1 Create Webhook Route (`src/app/api/webhooks/stripe/route.ts`)
+## Phase 4: Webhook Handler
+
+### Create `src/app/api/webhooks/stripe/route.ts`
+
+Handles Stripe webhook events to sync subscription status.
 
 ```typescript
-import { NextRequest, NextResponse } from 'next/server';
-import { headers } from 'next/headers';
-import Stripe from 'stripe';
+import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
-import { logError } from '@/lib/logger';
+import Stripe from 'stripe';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   const body = await request.text();
-  const headersList = await headers();
-  const signature = headersList.get('stripe-signature');
+  const signature = request.headers.get('stripe-signature');
 
   if (!signature) {
-    return NextResponse.json({ error: 'No signature' }, { status: 400 });
+    return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
   }
 
   let event: Stripe.Event;
@@ -306,7 +385,7 @@ export async function POST(request: NextRequest) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch (error) {
-    logError('Webhook signature verification failed:', error);
+    console.error('Webhook signature verification failed:', error);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
@@ -314,206 +393,248 @@ export async function POST(request: NextRequest) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-        const userId = session.metadata?.userId;
-        const subscriptionId = session.subscription as string;
-
-        if (userId && subscriptionId) {
-          await prisma.user.update({
-            where: { id: userId },
-            data: {
-              isPro: true,
-              stripeSubscriptionId: subscriptionId,
-              stripeCustomerId: session.customer as string,
-            },
-          });
-        }
+        await handleCheckoutCompleted(session);
         break;
       }
-
-      case 'customer.subscription.updated': {
-        const subscription = event.data.object as Stripe.Subscription;
-        const customerId = subscription.customer as string;
-
-        const isActive = ['active', 'trialing'].includes(subscription.status);
-
-        await prisma.user.updateMany({
-          where: { stripeCustomerId: customerId },
-          data: {
-            isPro: isActive,
-            stripeSubscriptionId: isActive ? subscription.id : null,
-          },
-        });
+      case 'invoice.paid': {
+        const invoice = event.data.object as Stripe.Invoice;
+        await handleInvoicePaid(invoice);
         break;
       }
-
-      case 'customer.subscription.deleted': {
-        const subscription = event.data.object as Stripe.Subscription;
-        const customerId = subscription.customer as string;
-
-        await prisma.user.updateMany({
-          where: { stripeCustomerId: customerId },
-          data: {
-            isPro: false,
-            stripeSubscriptionId: null,
-          },
-        });
-        break;
-      }
-
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice;
-        const customerId = invoice.customer as string;
-
-        // Optionally send email notification about failed payment
-        // For now, just log it
-        logError('Payment failed for customer:', customerId);
+        await handlePaymentFailed(invoice);
+        break;
+      }
+      case 'customer.subscription.updated': {
+        const subscription = event.data.object as Stripe.Subscription;
+        await handleSubscriptionUpdated(subscription);
+        break;
+      }
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object as Stripe.Subscription;
+        await handleSubscriptionDeleted(subscription);
         break;
       }
     }
-
-    return NextResponse.json({ received: true });
   } catch (error) {
-    logError('Webhook handler error:', error);
+    console.error(`Error handling ${event.type}:`, error);
     return NextResponse.json(
       { error: 'Webhook handler failed' },
+      { status: 500 }
+    );
+  }
+
+  return NextResponse.json({ received: true });
+}
+
+async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+  const userId = session.metadata?.userId;
+  if (!userId) return;
+
+  const subscriptionId =
+    typeof session.subscription === 'string'
+      ? session.subscription
+      : session.subscription?.id;
+
+  if (!subscriptionId) return;
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      isPro: true,
+      stripeCustomerId: typeof session.customer === 'string'
+        ? session.customer
+        : session.customer?.id ?? undefined,
+      stripeSubscriptionId: subscriptionId,
+    },
+  });
+}
+
+async function handleInvoicePaid(invoice: Stripe.Invoice) {
+  const customerId =
+    typeof invoice.customer === 'string'
+      ? invoice.customer
+      : invoice.customer?.id;
+
+  if (!customerId) return;
+
+  // Ensure user stays pro after successful renewal
+  await prisma.user.updateMany({
+    where: { stripeCustomerId: customerId },
+    data: { isPro: true },
+  });
+}
+
+async function handlePaymentFailed(invoice: Stripe.Invoice) {
+  const customerId =
+    typeof invoice.customer === 'string'
+      ? invoice.customer
+      : invoice.customer?.id;
+
+  if (!customerId) return;
+
+  // Optional: Log or notify. Don't immediately downgrade.
+  // Stripe retries failed payments. Only downgrade on subscription.deleted.
+  console.warn(`Payment failed for customer ${customerId}`);
+}
+
+async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
+  const customerId =
+    typeof subscription.customer === 'string'
+      ? subscription.customer
+      : subscription.customer?.id;
+
+  if (!customerId) return;
+
+  // Handle status changes (e.g., past_due, canceled, active)
+  const isActive = ['active', 'trialing'].includes(subscription.status);
+
+  await prisma.user.updateMany({
+    where: { stripeCustomerId: customerId },
+    data: {
+      isPro: isActive,
+      stripeSubscriptionId: subscription.id,
+    },
+  });
+}
+
+async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
+  const customerId =
+    typeof subscription.customer === 'string'
+      ? subscription.customer
+      : subscription.customer?.id;
+
+  if (!customerId) return;
+
+  await prisma.user.updateMany({
+    where: { stripeCustomerId: customerId },
+    data: {
+      isPro: false,
+      stripeSubscriptionId: null,
+    },
+  });
+}
+```
+
+**Important:** The webhook route must receive the raw body (not JSON-parsed). Next.js App Router routes receive raw body by default when using `request.text()`, so no special config is needed.
+
+---
+
+## Phase 5: Customer Portal
+
+### Create `src/app/api/stripe/portal/route.ts`
+
+Redirects authenticated Pro users to Stripe's hosted billing portal.
+
+```typescript
+import { NextResponse } from 'next/server';
+import { auth } from '@/auth';
+import { stripe } from '@/lib/stripe';
+import { prisma } from '@/lib/prisma';
+
+export async function POST() {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { stripeCustomerId: true },
+    });
+
+    if (!user?.stripeCustomerId) {
+      return NextResponse.json(
+        { error: 'No billing account found' },
+        { status: 400 }
+      );
+    }
+
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: user.stripeCustomerId,
+      return_url: `${process.env.NEXT_PUBLIC_APP_URL}/settings`,
+    });
+
+    return NextResponse.json({ url: portalSession.url });
+  } catch (error) {
+    console.error('Portal error:', error);
+    return NextResponse.json(
+      { error: 'Failed to create portal session' },
       { status: 500 }
     );
   }
 }
 ```
 
-### Phase 5: Usage Limits Helper
+---
 
-#### 5.1 Create Usage Limits Module (`src/lib/usage-limits.ts`)
+## Phase 6: Feature Gating
 
-```typescript
-import { prisma } from '@/lib/prisma';
+### Modify `src/actions/items.ts` - `createItem`
 
-export const FREE_TIER_LIMITS = {
-  maxItems: 50,
-  maxCollections: 3,
-} as const;
-
-export type UsageLimits = {
-  isPro: boolean;
-  items: { current: number; max: number; remaining: number };
-  collections: { current: number; max: number; remaining: number };
-  canUploadFiles: boolean;
-  canUseAI: boolean;
-  canExport: boolean;
-  canCreateCustomTypes: boolean;
-};
-
-export async function getUserLimits(userId: string): Promise<UsageLimits> {
-  const [user, itemCount, collectionCount] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: userId },
-      select: { isPro: true },
-    }),
-    prisma.item.count({ where: { userId } }),
-    prisma.collection.count({ where: { userId } }),
-  ]);
-
-  const isPro = user?.isPro ?? false;
-
-  const maxItems = isPro ? Infinity : FREE_TIER_LIMITS.maxItems;
-  const maxCollections = isPro ? Infinity : FREE_TIER_LIMITS.maxCollections;
-
-  return {
-    isPro,
-    items: {
-      current: itemCount,
-      max: maxItems,
-      remaining: Math.max(0, maxItems - itemCount),
-    },
-    collections: {
-      current: collectionCount,
-      max: maxCollections,
-      remaining: Math.max(0, maxCollections - collectionCount),
-    },
-    canUploadFiles: isPro,
-    canUseAI: isPro,
-    canExport: isPro,
-    canCreateCustomTypes: isPro,
-  };
-}
-
-export async function canCreateItem(userId: string): Promise<boolean> {
-  const limits = await getUserLimits(userId);
-  return limits.items.remaining > 0;
-}
-
-export async function canCreateCollection(userId: string): Promise<boolean> {
-  const limits = await getUserLimits(userId);
-  return limits.collections.remaining > 0;
-}
-
-export async function canUploadFiles(userId: string): Promise<boolean> {
-  const limits = await getUserLimits(userId);
-  return limits.canUploadFiles;
-}
-```
-
-### Phase 6: Modify Existing Actions for Gating
-
-#### 6.1 Update `createItem` in `src/actions/items.ts`
-
-Add at the beginning of the function:
+Add usage limit check before creating an item.
 
 ```typescript
-import { canCreateItem, canUploadFiles } from '@/lib/usage-limits';
+// Add import at top
+import { canCreateItem } from '@/lib/usage';
 
-// In createItem function, after getting userId:
-const canCreate = await canCreateItem(userId);
-if (!canCreate) {
-  return {
-    success: false,
-    error:
-      "You've reached the free tier limit of 50 items. Upgrade to Pro for unlimited items.",
-  };
-}
+export async function createItem(input: CreateItemInput): Promise<ActionResult> {
+  const session = await auth();
 
-// For file/image types, check file upload permission:
-if (typeName === 'file' || typeName === 'image') {
-  const canUpload = await canUploadFiles(userId);
-  if (!canUpload) {
-    return {
-      success: false,
-      error:
-        'File uploads require a Pro subscription. Upgrade to unlock this feature.',
-    };
+  if (!session?.user?.id) {
+    return { success: false, error: 'Unauthorized' };
   }
+
+  // Check Pro requirement for file/image types
+  if (['file', 'image'].includes(input.typeName) && !session.user.isPro) {
+    return { success: false, error: 'File and image uploads require a Pro subscription' };
+  }
+
+  // Check usage limits
+  const allowed = await canCreateItem(session.user.id, session.user.isPro);
+  if (!allowed) {
+    return { success: false, error: 'You have reached the free tier limit of 50 items. Upgrade to Pro for unlimited items.' };
+  }
+
+  // ... rest of existing createItem logic
 }
 ```
 
-#### 6.2 Update `createCollection` in `src/actions/collections.ts`
+### Modify `src/actions/collections.ts` - `createCollection`
 
-Add at the beginning of the function:
+Add usage limit check before creating a collection.
 
 ```typescript
-import { canCreateCollection } from '@/lib/usage-limits';
+// Add import at top
+import { canCreateCollection } from '@/lib/usage';
 
-// In createCollection function, after getting userId:
-const canCreate = await canCreateCollection(userId);
-if (!canCreate) {
-  return {
-    success: false,
-    error:
-      "You've reached the free tier limit of 3 collections. Upgrade to Pro for unlimited collections.",
-  };
+export async function createCollection(input: CreateCollectionInput): Promise<ActionResult> {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return { success: false, error: 'Unauthorized' };
+  }
+
+  // Check usage limits
+  const allowed = await canCreateCollection(session.user.id, session.user.isPro);
+  if (!allowed) {
+    return { success: false, error: 'You have reached the free tier limit of 3 collections. Upgrade to Pro for unlimited collections.' };
+  }
+
+  // ... rest of existing createCollection logic
 }
 ```
 
-#### 6.3 Update Upload API (`src/app/api/upload/route.ts`)
+### Modify `src/app/api/upload/route.ts`
 
-Add after authentication check:
+Add Pro check before allowing file/image uploads.
 
 ```typescript
-import { canUploadFiles } from '@/lib/usage-limits';
-
-// After session check:
-const canUpload = await canUploadFiles(session.user.id);
-if (!canUpload) {
+// After the auth check, add:
+if (!session.user.isPro) {
   return NextResponse.json(
     { error: 'File uploads require a Pro subscription' },
     { status: 403 }
@@ -521,398 +642,222 @@ if (!canUpload) {
 }
 ```
 
-### Phase 7: Subscription UI Components
+> **Note:** The upload route currently uses `session.user.id` only. After Phase 2, `session.user.isPro` will be available. However, the upload route uses `auth()` directly (not from the JWT client side), so `isPro` will need to be fetched from the database here since the upload API route may not have the JWT-enhanced session. An alternative is to query `isPro` directly:
 
-#### 7.1 Create Subscription Section (`src/components/settings/SubscriptionSection.tsx`)
+```typescript
+const user = await prisma.user.findUnique({
+  where: { id: session.user.id },
+  select: { isPro: true },
+});
+
+if (!user?.isPro) {
+  return NextResponse.json(
+    { error: 'File uploads require a Pro subscription' },
+    { status: 403 }
+  );
+}
+```
+
+---
+
+## Phase 7: UI Components
+
+### Create `src/components/settings/billing-settings.tsx`
+
+A client component for the settings page showing current plan and upgrade/manage options.
 
 ```typescript
 'use client';
 
 import { useState } from 'react';
+import { CreditCard, ExternalLink, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Check, Crown, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import {
-  createCheckoutSession,
-  createBillingPortalSession,
-  type SubscriptionStatus,
-} from '@/actions/subscription';
 
-interface SubscriptionSectionProps {
-  status: SubscriptionStatus;
+interface BillingSettingsProps {
+  isPro: boolean;
+  itemCount: number;
+  collectionCount: number;
 }
 
-export function SubscriptionSection({ status }: SubscriptionSectionProps) {
-  const [isLoading, setIsLoading] = useState(false);
+export default function BillingSettings({ isPro, itemCount, collectionCount }: BillingSettingsProps) {
+  const [loading, setLoading] = useState<'monthly' | 'yearly' | 'portal' | null>(null);
 
-  async function handleUpgrade(interval: 'monthly' | 'yearly') {
-    setIsLoading(true);
+  async function handleUpgrade(plan: 'monthly' | 'yearly') {
+    setLoading(plan);
     try {
-      const result = await createCheckoutSession(interval);
-      if ('error' in result) {
-        toast.error(result.error);
+      const priceId = plan === 'monthly'
+        ? process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_MONTHLY
+        : process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_YEARLY;
+
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId }),
+      });
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
       } else {
-        window.location.href = result.url;
+        toast.error(data.error || 'Failed to start checkout');
       }
     } catch {
       toast.error('Something went wrong');
     } finally {
-      setIsLoading(false);
+      setLoading(null);
     }
   }
 
   async function handleManageBilling() {
-    setIsLoading(true);
+    setLoading('portal');
     try {
-      const result = await createBillingPortalSession();
-      if ('error' in result) {
-        toast.error(result.error);
+      const res = await fetch('/api/stripe/portal', { method: 'POST' });
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
       } else {
-        window.location.href = result.url;
+        toast.error(data.error || 'Failed to open billing portal');
       }
     } catch {
       toast.error('Something went wrong');
     } finally {
-      setIsLoading(false);
+      setLoading(null);
     }
   }
 
-  if (status.isPro) {
-    return (
-      <Card>
-        <CardHeader>
-          <div className='flex items-center gap-2'>
-            <CardTitle>Subscription</CardTitle>
-            <Badge className='bg-amber-500 text-black'>
-              <Crown className='mr-1 h-3 w-3' />
-              Pro
-            </Badge>
-          </div>
-          <CardDescription>
-            Manage your Pro subscription and billing
-          </CardDescription>
-        </CardHeader>
-        <CardContent className='space-y-4'>
-          <div className='text-sm text-muted-foreground'>
-            <p>Plan: {status.plan === 'yearly' ? 'Yearly' : 'Monthly'}</p>
-            {status.currentPeriodEnd && (
-              <p>
-                {status.cancelAtPeriodEnd ? 'Expires' : 'Renews'} on{' '}
-                {status.currentPeriodEnd.toLocaleDateString()}
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <CreditCard className="size-5 text-muted-foreground" />
+        <h2 className="text-lg font-semibold">Billing</h2>
+      </div>
+
+      <div className="bg-card border border-border rounded-lg p-6 space-y-4">
+        {/* Current Plan */}
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Current Plan</span>
+              <Badge variant={isPro ? 'default' : 'secondary'}>
+                {isPro ? 'Pro' : 'Free'}
+              </Badge>
+            </div>
+            {!isPro && (
+              <p className="text-sm text-muted-foreground mt-1">
+                {itemCount}/50 items &middot; {collectionCount}/3 collections
               </p>
             )}
           </div>
-          <Button onClick={handleManageBilling} disabled={isLoading}>
-            {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+        </div>
+
+        {/* Actions */}
+        {isPro ? (
+          <Button
+            variant="outline"
+            onClick={handleManageBilling}
+            disabled={loading === 'portal'}
+          >
+            {loading === 'portal' ? (
+              <Loader2 className="size-4 animate-spin mr-2" />
+            ) : (
+              <ExternalLink className="size-4 mr-2" />
+            )}
             Manage Billing
           </Button>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Upgrade to Pro</CardTitle>
-        <CardDescription>
-          Unlock unlimited items, collections, file uploads, and AI features
-        </CardDescription>
-      </CardHeader>
-      <CardContent className='space-y-6'>
-        <ul className='space-y-2 text-sm'>
-          {[
-            'Unlimited items & collections',
-            'File & image uploads',
-            'AI auto-tagging & summaries',
-            'Custom item types',
-            'Export to JSON/ZIP',
-          ].map((feature) => (
-            <li key={feature} className='flex items-center gap-2'>
-              <Check className='h-4 w-4 text-emerald-500' />
-              {feature}
-            </li>
-          ))}
-        </ul>
-
-        <div className='flex flex-col gap-3 sm:flex-row'>
-          <Button
-            onClick={() => handleUpgrade('monthly')}
-            disabled={isLoading}
-            className='flex-1'
-          >
-            {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-            $8/month
-          </Button>
-          <Button
-            onClick={() => handleUpgrade('yearly')}
-            disabled={isLoading}
-            variant='outline'
-            className='flex-1'
-          >
-            {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-            $72/year (save $24)
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+        ) : (
+          <div className="flex gap-3">
+            <Button
+              onClick={() => handleUpgrade('monthly')}
+              disabled={loading !== null}
+            >
+              {loading === 'monthly' && <Loader2 className="size-4 animate-spin mr-2" />}
+              Upgrade $8/mo
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => handleUpgrade('yearly')}
+              disabled={loading !== null}
+            >
+              {loading === 'yearly' && <Loader2 className="size-4 animate-spin mr-2" />}
+              Upgrade $72/yr (save 25%)
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 ```
 
-#### 7.2 Update Settings Page (`src/app/settings/page.tsx`)
+### Modify `src/app/settings/page.tsx`
 
-Add subscription section:
-
-```typescript
-import { getSubscriptionStatus } from '@/actions/subscription';
-import { SubscriptionSection } from '@/components/settings/SubscriptionSection';
-
-// In the component:
-const [profile, editorPreferences, subscriptionStatus] = await Promise.all([
-  getProfileData(),
-  getEditorPreferences(),
-  getSubscriptionStatus(),
-]);
-
-// Add to JSX before Editor Preferences:
-<SubscriptionSection status={subscriptionStatus} />;
-```
-
-#### 7.3 Create Usage Limits Display (`src/components/settings/UsageLimitsSection.tsx`)
+Add BillingSettings between EditorSettings and AccountSettings.
 
 ```typescript
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import type { UsageLimits } from '@/lib/usage-limits';
+// Add imports
+import BillingSettings from '@/components/settings/billing-settings';
+import { getUserUsage } from '@/lib/usage';
 
-interface UsageLimitsSectionProps {
-  limits: UsageLimits;
-}
+// In the component, after fetching user data:
+const usage = await getUserUsage(user.id, session.user.isPro ?? false);
 
-export function UsageLimitsSection({ limits }: UsageLimitsSectionProps) {
-  if (limits.isPro) {
-    return null; // Pro users don't need to see limits
-  }
-
-  const itemPercentage = (limits.items.current / limits.items.max) * 100;
-  const collectionPercentage =
-    (limits.collections.current / limits.collections.max) * 100;
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Usage</CardTitle>
-      </CardHeader>
-      <CardContent className='space-y-4'>
-        <div>
-          <div className='mb-1 flex justify-between text-sm'>
-            <span>Items</span>
-            <span>
-              {limits.items.current} / {limits.items.max}
-            </span>
-          </div>
-          <Progress value={itemPercentage} />
-        </div>
-        <div>
-          <div className='mb-1 flex justify-between text-sm'>
-            <span>Collections</span>
-            <span>
-              {limits.collections.current} / {limits.collections.max}
-            </span>
-          </div>
-          <Progress value={collectionPercentage} />
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
+// In the JSX, between EditorSettings and AccountSettings:
+<BillingSettings
+  isPro={session.user.isPro ?? false}
+  itemCount={usage.itemCount}
+  collectionCount={usage.collectionCount}
+/>
 ```
 
-### Phase 8: Add `isPro` to Session
+### Add `NEXT_PUBLIC_STRIPE_PRICE_ID_MONTHLY` and `NEXT_PUBLIC_STRIPE_PRICE_ID_YEARLY`
 
-#### 8.1 Extend Session Type (`src/types/next-auth.d.ts`)
+The checkout button on the client needs the price IDs. Either:
+- **Option A:** Make price IDs public env vars (prefix with `NEXT_PUBLIC_`) - simpler
+- **Option B:** Keep them server-side only and pass through the checkout API - more secure
+
+**Recommended: Option B** - Keep price IDs server-side. The client sends `plan: 'monthly' | 'yearly'` and the API route maps to the correct price ID:
 
 ```typescript
-import 'next-auth';
-
-declare module 'next-auth' {
-  interface Session {
-    user: {
-      id: string;
-      email?: string | null;
-      name?: string | null;
-      image?: string | null;
-      isPro: boolean;
-    };
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    isPro?: boolean;
-  }
-}
+// In the checkout API route:
+const priceId = plan === 'monthly'
+  ? process.env.STRIPE_PRICE_ID_MONTHLY
+  : process.env.STRIPE_PRICE_ID_YEARLY;
 ```
 
-#### 8.2 Update Auth Callbacks (`src/lib/auth.ts`)
+Update BillingSettings to send `plan` instead of `priceId`:
+```typescript
+const res = await fetch('/api/stripe/checkout', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ plan }), // 'monthly' or 'yearly'
+});
+```
+
+### Modify `src/components/homepage/PricingSection.tsx`
+
+Update the Pro "Start Free Trial" button to link to `/register` for unauthenticated users (current behavior) or `/settings` for authenticated users. This can be handled with a simple check or by keeping the current flow where users register first and upgrade from settings.
+
+### Show `?upgraded=true` Toast
+
+After successful checkout, users redirect to `/settings?upgraded=true`. Add a toast notification:
 
 ```typescript
-// In the callbacks section:
-callbacks: {
-  async session({ session, token }) {
-    if (token.sub && session.user) {
-      session.user.id = token.sub;
-      session.user.isPro = token.isPro ?? false;
-    }
-    return session;
-  },
- async jwt({ token, user }) {
-  if (user) {
-    token.sub = user.id;
+// In settings page or BillingSettings:
+import { useSearchParams } from 'next/navigation';
+
+const searchParams = useSearchParams();
+useEffect(() => {
+  if (searchParams.get('upgraded') === 'true') {
+    toast.success('Welcome to DevStash Pro!');
+    // Clean up URL
+    window.history.replaceState({}, '', '/settings');
   }
-
-  // Always sync isPro from database to catch webhook updates
-  if (token.sub) {
-    const dbUser = await prisma.user.findUnique({
-      where: { id: token.sub },
-      select: { isPro: true },
-    });
-    token.isPro = dbUser?.isPro ?? false;
-  }
-
-  return token;
-},
-},
+}, [searchParams]);
 ```
-
----
-
-## Stripe Dashboard Setup
-
-### 1. Create Products and Prices
-
-1. Go to Stripe Dashboard > Products
-2. Create a product: "DevStash Pro"
-3. Add two prices:
-   - Monthly: $8/month (recurring)
-   - Yearly: $72/year (recurring) - 25% discount
-
-### 2. Configure Customer Portal
-
-1. Go to Settings > Billing > Customer portal
-2. Enable:
-   - Invoice history
-   - Subscription cancellation
-   - Subscription switching (between monthly/yearly)
-   - Update payment methods
-
-### 3. Set Up Webhook
-
-1. Go to Developers > Webhooks
-2. Add endpoint: `https://your-domain.com/api/webhooks/stripe`
-3. Select events:
-   - `checkout.session.completed`
-   - `customer.subscription.created`
-   - `customer.subscription.updated`
-   - `customer.subscription.deleted`
-   - `invoice.payment_failed`
-   - `invoice.payment_succeeded`
-
-### 4. Test Mode
-
-- Use test mode during development
-- Test card: `4242 4242 4242 4242`
-- Any future expiry date, any CVC
-
----
-
-## Testing Checklist
-
-### Unit Tests
-
-- [ ] `canCreateItem` returns false when at limit
-- [ ] `canCreateCollection` returns false when at limit
-- [ ] `canUploadFiles` returns false for free users
-- [ ] `getUserLimits` returns correct values for free/pro users
-
-### Integration Tests
-
-- [ ] Checkout session creation works
-- [ ] Billing portal session creation works
-- [ ] Webhook signature verification
-- [ ] Subscription status updates correctly
-
-### Manual Testing
-
-- [ ] Free user can create up to 50 items
-- [ ] Free user cannot create 51st item (gets error)
-- [ ] Free user can create up to 3 collections
-- [ ] Free user cannot create 4th collection (gets error)
-- [ ] Free user cannot upload files
-- [ ] Upgrade flow redirects to Stripe Checkout
-- [ ] Successful payment updates user to Pro
-- [ ] Pro user has no limits
-- [ ] Pro user can upload files
-- [ ] Cancellation removes Pro status at period end
-- [ ] Billing portal allows subscription management
-
-### Webhook Testing
-
-Use Stripe CLI for local testing:
-
-```bash
-stripe listen --forward-to localhost:3000/api/webhooks/stripe
-```
-
----
-
-## Implementation Order
-
-1. **Environment Setup**
-
-   - Install `stripe` package
-   - Add environment variables
-
-2. **Core Stripe Integration**
-
-   - Create `src/lib/stripe.ts`
-   - Create `src/lib/usage-limits.ts`
-   - Create `src/actions/subscription.ts`
-
-3. **Webhook Handler**
-
-   - Create `src/app/api/webhooks/stripe/route.ts`
-
-4. **Session Enhancement**
-
-   - Add `isPro` to session types
-   - Update auth callbacks
-
-5. **Feature Gating**
-
-   - Update `createItem` action
-   - Update `createCollection` action
-   - Update upload API route
-
-6. **UI Components**
-
-   - Create `SubscriptionSection`
-   - Create `UsageLimitsSection`
-   - Update Settings page
-
-7. **Testing & Refinement**
-   - Write tests
-   - Manual testing
-   - Stripe webhook testing
 
 ---
 
@@ -920,23 +865,121 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 
 ### New Files to Create
 
-| File                                              | Purpose                     |
-| ------------------------------------------------- | --------------------------- |
-| `src/lib/stripe.ts`                               | Stripe client configuration |
-| `src/lib/usage-limits.ts`                         | Free tier limits logic      |
-| `src/actions/subscription.ts`                     | Subscription server actions |
-| `src/app/api/webhooks/stripe/route.ts`            | Stripe webhook handler      |
-| `src/types/next-auth.d.ts`                        | Session type extensions     |
-| `src/components/settings/SubscriptionSection.tsx` | Subscription UI             |
-| `src/components/settings/UsageLimitsSection.tsx`  | Usage display UI            |
+| File | Purpose |
+|------|---------|
+| `src/lib/stripe.ts` | Stripe SDK initialization |
+| `src/lib/usage.ts` | Free tier usage limit checks |
+| `src/app/api/stripe/checkout/route.ts` | Create Stripe Checkout sessions |
+| `src/app/api/stripe/portal/route.ts` | Create Stripe Customer Portal sessions |
+| `src/app/api/webhooks/stripe/route.ts` | Handle Stripe webhook events |
+| `src/components/settings/billing-settings.tsx` | Billing UI on settings page |
 
-### Files to Modify
+### Existing Files to Modify
 
-| File                          | Changes                              |
-| ----------------------------- | ------------------------------------ |
-| `src/actions/items.ts`        | Add limit checks in createItem       |
-| `src/actions/collections.ts`  | Add limit checks in createCollection |
-| `src/app/api/upload/route.ts` | Add Pro check for uploads            |
-| `src/lib/auth.ts`             | Add isPro to JWT/session callbacks   |
-| `src/app/settings/page.tsx`   | Add subscription section             |
-| `package.json`                | Add stripe dependency                |
+| File | Changes |
+|------|---------|
+| `src/auth.ts` | Make JWT callback async, add `isPro` sync from DB |
+| `src/types/next-auth.d.ts` | Add `isPro` to Session and JWT types |
+| `src/actions/items.ts` | Add usage limit + Pro type check in `createItem` |
+| `src/actions/collections.ts` | Add usage limit check in `createCollection` |
+| `src/app/api/upload/route.ts` | Add Pro check for file/image uploads |
+| `src/app/settings/page.tsx` | Add BillingSettings component + usage data |
+| `env.example` | Already has Stripe vars (no change needed) |
+
+### NPM Package to Install
+
+```bash
+npm install stripe
+```
+
+---
+
+## Testing Checklist
+
+### Stripe CLI Testing
+
+Use the [Stripe CLI](https://stripe.com/docs/stripe-cli) for local webhook testing:
+
+```bash
+# Install Stripe CLI
+brew install stripe/stripe-cli/stripe
+
+# Login
+stripe login
+
+# Forward webhooks to local dev
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
+
+# Copy the webhook signing secret and set as STRIPE_WEBHOOK_SECRET
+```
+
+### Manual Testing
+
+- [ ] **Checkout Flow**
+  - [ ] Click "Upgrade $8/mo" from settings - redirects to Stripe Checkout
+  - [ ] Click "Upgrade $72/yr" from settings - redirects to Stripe Checkout
+  - [ ] Complete payment with test card `4242 4242 4242 4242`
+  - [ ] Redirected back to `/settings?upgraded=true`
+  - [ ] "Welcome to DevStash Pro!" toast appears
+  - [ ] Plan shows as "Pro" on settings page
+  - [ ] `session.user.isPro` is `true` after page reload
+
+- [ ] **Webhook Processing**
+  - [ ] `checkout.session.completed` sets `isPro=true`, stores `stripeCustomerId` and `stripeSubscriptionId`
+  - [ ] `invoice.paid` keeps `isPro=true`
+  - [ ] `invoice.payment_failed` logs warning (does not downgrade)
+  - [ ] `customer.subscription.deleted` sets `isPro=false`, clears `stripeSubscriptionId`
+  - [ ] `customer.subscription.updated` with `status=active` keeps `isPro=true`
+  - [ ] `customer.subscription.updated` with `status=canceled` sets `isPro=false`
+
+- [ ] **Customer Portal**
+  - [ ] Pro user can click "Manage Billing" - redirects to Stripe portal
+  - [ ] Can view invoices
+  - [ ] Can cancel subscription
+  - [ ] Can switch between monthly/yearly
+  - [ ] Returns to `/settings` after portal
+
+- [ ] **Feature Gating**
+  - [ ] Free user can create up to 50 items
+  - [ ] Free user sees error at 50 items: "You have reached the free tier limit..."
+  - [ ] Free user can create up to 3 collections
+  - [ ] Free user sees error at 3 collections
+  - [ ] Free user cannot create File or Image items
+  - [ ] Free user cannot upload files (403 from upload route)
+  - [ ] Pro user has no limits on items or collections
+  - [ ] Pro user can create File and Image items
+  - [ ] Pro user can upload files
+
+- [ ] **Session Sync**
+  - [ ] After Stripe webhook updates `isPro`, a page reload reflects the change
+  - [ ] No stale `isPro=false` after successful checkout
+
+- [ ] **Edge Cases**
+  - [ ] User who was Pro and cancels: `isPro` set to `false` after `subscription.deleted`
+  - [ ] Webhook signature verification fails: returns 400, no DB changes
+  - [ ] Duplicate webhook events: idempotent (updateMany is safe)
+  - [ ] User without Stripe customer: checkout creates new customer
+
+### Unit Tests to Write
+
+| Test | File |
+|------|------|
+| `getUserUsage` returns correct counts and limits | `src/lib/usage.test.ts` |
+| `canCreateItem` returns false at limit | `src/lib/usage.test.ts` |
+| `canCreateCollection` returns false at limit | `src/lib/usage.test.ts` |
+| Pro users bypass all limits | `src/lib/usage.test.ts` |
+| `createItem` rejects file type for free users | `src/actions/items.test.ts` |
+| `createItem` rejects at item limit | `src/actions/items.test.ts` |
+| `createCollection` rejects at collection limit | `src/actions/collections.test.ts` |
+
+### Stripe Test Cards
+
+| Card Number | Scenario |
+|-------------|----------|
+| `4242 4242 4242 4242` | Successful payment |
+| `4000 0000 0000 0002` | Card declined |
+| `4000 0000 0000 3220` | 3D Secure required |
+
+---
+
+_Generated: February 2026_

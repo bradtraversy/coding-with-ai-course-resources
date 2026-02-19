@@ -19,6 +19,8 @@ Set up Prisma ORM with Neon PostgreSQL database.
 
 ## Notes
 
-We will have a development branch that we work on that will be in DATABASE_URL and then we will have a production branch. So we ALWAYS run migrations and never push directly unless specified.
+We will have a development branch that we work on that will be in DATABASE_URL and then we will have a production branch. So we ALWAYS create migrations and never push directly unless specified.
 
-Use Prisma 7, which has some breaking changes. Be sure to reference the latest docs.
+IMPORTANT! Use Prisma 7, which has some breaking changes. Read the entire upgrade guide at https://www.prisma.io/docs/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-7 to get a good idea of the changes.
+
+You can also look at the setup guide here - https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres

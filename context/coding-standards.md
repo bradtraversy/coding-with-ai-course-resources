@@ -18,9 +18,34 @@
 
 - Server components by default
 - Only use `'use client'` when needed (interactivity, hooks, browser APIs)
-- Use Server Actions for mutations
+- Use Server Actions for form submissions and simple mutations
+- Use API routes when you need:
+  - Webhooks (Stripe, GitHub, etc.)
+  - File uploads with progress tracking
+  - Long-running operations
+  - Specific HTTP status codes or headers
+  - Endpoints for future mobile/CLI clients
+  - Third-party integrations
+- Otherwise, fetch data directly in server components
 - Dynamic routes for item/collection pages
-- API routes only for webhooks and external integrations
+
+## Tailwind CSS v4
+
+**CRITICAL**: We are using Tailwind CSS v4, which uses CSS-based configuration.
+
+- **DO NOT** create `tailwind.config.ts` or `tailwind.config.js` files (those are for v3)
+- All theme configuration must be done in CSS using the `@theme` directive in `src/app/globals.css`
+- Use CSS custom properties for colors, spacing, etc.
+- No JavaScript-based config allowed
+
+Example v4 configuration:
+
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-primary: oklch(50% 0.2 250);
+}
 
 ## File Organization
 
@@ -69,3 +94,4 @@
 - No commented-out code unless specified
 - No unused imports or variables
 - Keep functions under 50 lines when possible
+```

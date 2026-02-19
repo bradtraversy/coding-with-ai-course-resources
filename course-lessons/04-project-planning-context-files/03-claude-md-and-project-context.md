@@ -1,7 +1,6 @@
 # CLAUDE.md File
 
-In the last lesson, we looked at our project spec file. This is usually the first file I suggest creating before starting a large project with AI assistance.
-
+So we setup our initial files and we also created a planned out spec file.
 Now I want to go over the most important doc when using Claude Code, which is the `CLAUDE.md` file. Every agentic AI tool has a specific file that is used for persisted context and rules. This is looked at with every new session. It's a way of passing things in memory from one session to the next. If you're using Cursor, you place `.mdc` files in the .`cursor/rules/` folder. In Codex, it's called `AGENTS.md`. So if you're using something else, just call the file whatever it's supposed to be called for that tool.
 
 ## `/init` Command
@@ -22,14 +21,38 @@ Generally, what I like to put are the following:
 So let's add the following to the `CLAUDE.md` file:
 
 ```markdown
+# DevStash
+
+A developer knowledge hub for snippets, prompts, commands, notes, files, images, links and custom item types.
+
 ## Context Files
 
-Read these files for full project context:
+Read these for full project context:
 
 - @context/project-overview.md: Features, data models, tech stack, UI/UX
 - @context/coding-standards.md: Code conventions and patterns
 - @context/ai-interaction.md : Workflow and communication guidelines
 - @context/current-feature.md: What we are currently working on
+
+## Tech Stack
+
+- Next.js 16 (App Router, Server Components)
+- TypeScript (strict)
+- Prisma + Neon PostgreSQL
+- NextAuth v5 (Email + GitHub)
+- Tailwind CSS v4 + shadcn/ui
+- Cloudflare R2 (file storage)
+- OpenAI GPT-4o Mini
+- Stripe (payments)
+
+## Quick Commands
+
+```bash
+npm run dev      # Start dev server
+npm run build    # Build for production
+npm run lint     # Run ESLint
+```
+
 ```
 
 ## Project Spec -> Project Overview Context

@@ -6,9 +6,9 @@ AI, or Artificial Intelligence, is a broad term for machines that can perform ta
 
 There are different categories of AI.
 
-**Computer Vision**: Facial recognition, self-driving cars, medical imaging, exactly
-**Predictive AI**: Netflix/Spotify recommendations, fraud detection, stock market forecasting
-**Generative AI**: Text generation (ChatGPT, Claude), Image generation (Midjourney, DALL-E), code generation (CoPilot, Cursor), audio/voice generation (ElevenLabs), music generation (Suno, Runway), video generation (Sora, Udio)
+**Computer Vision**: AI that processes and interprets visual information from images and video. Facial recognition, self-driving cars, medical imaging, exactly
+**Predictive AI**: Analyzes historical data to identify patterns and forecast future outcomes. Netflix/Spotify recommendations, fraud detection, stock market forecasting
+**Generative AI**: Creates new content that didn't previously exist. Rather than analyzing or predicting, it produces original outputs. Text generation (ChatGPT, Claude), Image generation (Midjourney, DALL-E), code generation (CoPilot, Cursor), audio/voice generation (ElevenLabs), music generation (Suno, Runway), video generation (Sora, Udio)
 
 When most people say "AI" today, they're usually talking about **generative AI**. That's the stuff that can create new content - write text, generate images, produce code. Tools like ChatGPT, Claude, Midjourney - that's all generative AI.
 
@@ -70,16 +70,3 @@ Let's be real about the limitations:
 
 **Smaller Players** - Mistral, Cohere, and others making solid models, especially in the open source space.
 
-## WHY THIS MATTERS FOR DEVELOPERS
-
-Here's the bottom line: LLMs are a tool. A really powerful tool, but still a tool.
-
-They're not going to replace developers. But developers who know how to use these tools effectively will absolutely outpace developers who don't.
-
-Think about it like this: calculators didn't replace mathematicians. IDEs didn't replace programmers. But imagine trying to compete today without those tools.
-
-That's where we're headed with AI. It's not about letting the AI do your job. It's about leveraging it to do your job faster, better, and with less friction.
-
-In this course, you're going to learn how to use AI the right way - not as a crutch, but as a force multiplier. You'll understand when to use it, when not to use it, and how to get the best results when you do.
-
-Let's get into it.

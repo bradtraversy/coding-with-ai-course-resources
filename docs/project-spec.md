@@ -17,19 +17,19 @@ This creates context switching, lost knowledge, and inconsistent workflows. DevS
 
 ## Users
 
-- Everyday Developer
+- **Everyday Developer**:
   Needs a fast way to grab snippets, prompts, commands, links.
 
-- AI-first Developer
+- **AI-first Developer**:
   Saves prompts, contexts, workflows, system messages.
 
-- Content Creator / Educator
+- **Content Creator / Educator**:
   Stores code blocks, explanations, course notes.
 
-- Full-stack Builder
+- **Full-stack Builder**:
   Collects patterns, boilerplates, API examples.
 
-Features
+## Features
 Here is a list of features for DevStash.
 
 A. **Items/Item Types**

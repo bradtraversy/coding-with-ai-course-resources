@@ -6,7 +6,7 @@ docs/ai-integration-plan.md
 
 ## Research
 
-Investigate best practices for integrating OpenAI GPT-4o Mini into a Next.js application for the following features:
+Investigate best practices for integrating the OpenAI "gpt-5-nano" model into a Next.js application for the following features:
 
 - Auto-tagging content
 - AI-generated summaries
@@ -29,5 +29,5 @@ Investigate best practices for integrating OpenAI GPT-4o Mini into a Next.js app
 - Web search for OpenAI + Next.js patterns
 - Context7 docs for OpenAI SDK
 - Existing codebase patterns (server actions, Pro gating)
-- src/actions/\*.ts for action patterns
-- src/lib/usage-limits.ts for gating patterns
+- @src/actions/\*.ts for action patterns
+- @src/lib/usage-limits.ts for gating patterns

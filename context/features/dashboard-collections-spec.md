@@ -1,17 +1,20 @@
-# Collections Spec
+# Dashboard Collections Spec
 
 ## Overview
 
-Fetch the collections and show the latest 6 in the dashboard grid UI at `/dashboard`, replacing the dummy content. It should look like it does now but real data.
+Replace the dummy collection data displayed in the main area of the dashboard (right side), with actual data from the database. It should look how it does now with the 6 cards of recent collections, but instead of using data from @src/lib/mock-data.ts, it should be from our Neon database using Prisma.
+
+Do not add the items underneath yet. We will do that later.
 
 ## Requirements
 
-- Create src/actions/collections.ts with server action to fetch collections
-- Collection card icon/color derived from most-used content type in that collection
-- Display item type tags on collection cards (Snippets, Prompts, etc.)
-- Match the visual design from screenshot
+- Create src/lib/db/collections.ts with data fetching functions
+- Fetch collections directly in server component
+- Collection card border color derived from most-used content type in that collection
+- Show small icons of all types in that collection
+- Keep the current design. You can also reference the screenshot
 - Update collection stats display
 
 ## References
 
-Check the `@context/screenshots/dashboard-mockup.png` screenshot if needed.
+Check the `@context/screenshots/dashboard-ui-main.png` screenshot if needed, but layout and design is already there.

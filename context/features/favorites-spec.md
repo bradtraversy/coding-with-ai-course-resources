@@ -7,8 +7,8 @@ Add a /favorites page displaying all favorited items and collections in a compac
 ## Requirements
 
 - Add star icon button to TopBar linking to /favorites
-- Create /favorites route with middleware protection
-- Fetch all favorited items and collections
+- Create /favorites route with protection
+- Fetch all user favorited items and collections
 - Compact list view (VS Code/terminal style, not cards)
 - Each row: type icon, title, type badge, date added
 - Separate sections for items and collections with counts

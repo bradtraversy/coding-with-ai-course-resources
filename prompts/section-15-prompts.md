@@ -1,13 +1,19 @@
 # Section 15 Prompts
 
-## AI Auto Tagging Feature Prompt
+## Font Size Prompt
 
 ```text
-/feature load Implement AI auto-tagging for items using OpenAI GPT-4o Mini. Install OpenAI SDK, create src/lib/openai.ts with lazy client initialization, add generateAutoTags server action with Pro user gating, add Suggest Tags button to item create/edit forms, show tag suggestions with accept/reject UI, include loading states and error handling.
+I have some concerns about the font size in certain areas, specifically the item drawer. The code editor is good as that is controlled by the user. The rest of the drawer seem really small as well as the markdown editor for types that are not snippets and commands. Use Playwright to inspect the UI and review the font sizes and make suggestions
 ```
 
-## AI Summaries Feature Prompt
+## UI Review Prompt
 
 ```text
-/feature load Implement AI summaries for items using OpenAI GPT-4o Mini. Add generateSummary server action in src/actions/ai.ts with Pro user gating. Generate concise 1-2 sentence summaries from item title, content, and type. Add "Generate Summary" button (sparkles icon) next to the description field in CreateItemModal and ItemDrawer edit mode. Auto-populate the description textarea with the generated summary. Truncate long content to 2000 characters before API call. Limit summary output to ~150 characters. Include loading states, Pro user tooltip for disabled state, and error handling with toasts.
+Use the ui reviewer and Playwright and give me any overall suggestions that you may have for the UI layout. A couple things that I want to mention is there is no sidebar highlighting of links and there is no github button on the register page. Add those in your report. Keep the report concise with straightforward results. Use Playwright not just code review
+```
+
+## Refactor Scanner Prompt
+
+```text
+I want to create a subagent called "refactor-scanner" that takes in an argument of the folder to scan for duplicate code that can be put into seperate utility functions, components, etc. It should take in folders like actions, components, lib, api, hooks and all. Tailor the instructions to the type of folder/code
 ```

@@ -1,7 +1,7 @@
 ---
 name: ui-reviewer
 description: Reviews UI for visual issues, responsiveness, and accessibility
-tools: Read, Glob, Grep, mcp__playwright__*
+tools: "Read, Glob, Grep, mcp\_\_playwright\_\_*"
 model: sonnet
 ---
 
@@ -36,6 +36,6 @@ You are a UI/UX reviewer. Use Playwright to view pages and evaluate:
 - Social proof visible
 - Fast visual hierarchy
 
-## Output
+## Notes
 
-Screenshot each viewport, note issues with specific locations.
+Make the summary concise with numbered issues to fix. 

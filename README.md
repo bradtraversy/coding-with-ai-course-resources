@@ -1,196 +1,243 @@
-# Coding With AI Course Resources
+# Coding With AI - Course Resources
 
-A complete educational repository for my **Coding With AI** course on AI-assisted development by building **DevStash** - a developer knowledge hub for storing and organizing code snippets, prompts, commands, notes, files, images, and links.
+Resources, prompts, lesson notes, feature specs, and more for the **Coding With AI** course — where we learn AI-assisted development by building **DevStash**, a centralized developer knowledge/resource hub.
 
-This repository does NOT contain the actual code for DevStash. That can be found in a separate repo. This is a resource for documentation, context, notes, etc for people taking the course.
+> **Note:** This repo does NOT contain the DevStash source code. That lives in a [separate repository](https://github.com/bradtraversy/devstash). This is the companion resource for students taking the course.
 
-**The course is scheduled to be released Feb 2026 at https://traversymedia.com**
-
-## Overview
-
-This repository contains:
-
-- **Full course curriculum** with 16 lessons on AI-assisted development
-- **Project specifications** for building the DevStash application
-- **Custom commands and subagents** for AI workflow optimization
-- **Prompts and examples** organized by course section
-
-## Tech Stack
-
-The DevStash application uses:
-
-- **Next.js 16** - App Router, Server Components
-- **TypeScript** - Strict mode
-- **Prisma + Neon PostgreSQL** - Database ORM and cloud database
-- **NextAuth v5** - Email + GitHub authentication
-- **Tailwind CSS v4 + shadcn/ui** - Styling and components
-- **Cloudflare R2** - File storage
-- **OpenAI GPT-4o Mini** - AI features
-- **Stripe** - Payment processing
+| | Link |
+| --- | --- |
+| **Course** | Coming Soon |
+| **DevStash Repo** | [github.com/bradtraversy/devstash](https://github.com/bradtraversy/devstash) |
 
 ---
 
-## Folder Structure
+## Table of Contents
 
-### `/context`
-
-The central hub for project documentation, specifications, and planning. This is the primary reference for understanding and building DevStash.
-
-| File                  | Description                                                                                                                                                      |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `project-overview.md` | Complete project specification including features, data models, tech stack, API architecture, auth flow, and development roadmap                                 |
-| `coding-standards.md` | Code conventions covering TypeScript, React, Next.js patterns, file organization, naming conventions, styling, and database practices                            |
-| `ai-interaction.md`   | AI workflow guidelines including the feature/fix workflow (Document → Branch → Implement → Test → Commit → Merge), branching strategy, and code review practices |
-| `current-feature.md`  | Tracks the current feature being worked on with status, goals, and notes                                                                                         |
-
-#### `/context/features`
-
-Individual feature specifications for modular development (19 files):
-
-| File                            | Description                           |
-| ------------------------------- | ------------------------------------- |
-| `database-spec.md`              | Database schema and Prisma setup      |
-| `next-auth-spec.md`             | Authentication implementation details |
-| `sidebar-spec.md`               | Sidebar navigation component          |
-| `dashboard-layout-spec.md`      | Dashboard page layout structure       |
-| `dashboard-collections-spec.md` | Collections display in dashboard      |
-| `homepage-mockup-spec.md`       | Homepage design specification         |
-| `item-list-view-spec.md`        | Item list display component           |
-| `image-display-spec.md`         | Image rendering and gallery features  |
-| `favorites-spec.md`             | Favorites/bookmarking functionality   |
-| `pinned-spec.md`                | Pinned items feature                  |
-| `pagination-spec.md`            | List pagination implementation        |
-| `global-search-spec.md`         | Search functionality across all items |
-| `editor-settings-spec.md`       | Code editor configuration options     |
-| `code-editor-spec.md`           | Code editor component implementation  |
-| `profile-spec.md`               | User profile page                     |
-| `file-image-spec.md`            | File and image upload handling        |
-| `ai-explain-spec.md`            | AI-powered code explanation feature   |
-| `seed-spec.md`                  | Database seeding specification        |
-| `small-enhancements-1.md`       | Minor improvements and fixes          |
-
-#### `/context/research`
-
-Research documents for technical decisions:
-
-| File                             | Description                                      |
-| -------------------------------- | ------------------------------------------------ |
-| `ai-integration-research.md`     | Research on AI integration options and providers |
-| `content-types-research.md`      | Analysis of content type requirements            |
-| `item-crud-research.md`          | CRUD operation patterns and implementation       |
-| `stripe-integration-research.md` | Payment integration research and findings        |
-
-#### `/context/screenshots`
-
-Visual mockups and design references:
-
-| File                   | Description                          |
-| ---------------------- | ------------------------------------ |
-| `dashboard-mockup.png` | UI mockup of the dashboard interface |
+- [📚 What You'll Learn](#-what-youll-learn)
+- [🚀 How to Use This Repo](#-how-to-use-this-repo)
+- [🔄 Development Workflow](#-development-workflow)
+- [🎓 Course Curriculum](#-course-curriculum)
+- [📁 Folder Structure](#-folder-structure)
+- [🛠️ Course Project Tech Stack](#️-course-project-tech-stack)
+- [📄 License](#-license)
 
 ---
 
-### `/docs`
+## 📚 What You'll Learn
 
-Detailed project documentation:
+- 🤖 How to use AI tools in a real development workflow
+- ⚡ Vibe coding for rapid prototyping vs. production-grade development
+- 📋 Project planning, context files, and AI interaction strategies
+- 🏗️ Building a SaaS/full-stack app from scratch with AI assistance
+- 🔧 Custom skills, subagents, and MCP servers
+- 🔐 Authentication, Stripe payments, file storage, and AI feature integration
 
-| File                         | Description                                                                                                                                                        |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `project-spec.md`            | Master specification covering problem statement, target users, features, data models, tech stack, monetization tiers (Free vs Pro), and UI/UX principles           |
-| `content-types.md`           | Detailed reference for all 7 system item types (Snippet, Prompt, Command, Note, File, Image, Link) with properties, display requirements, and field specifications |
-| `items-crud-architecture.md` | Architecture documentation for create/read/update/delete operations                                                                                                |
-| `stripe-integration-plan.md` | Complete Stripe payment integration plan including webhooks and subscription management                                                                            |
+## 🚀 How to Use This Repo
 
----
-
-### `/prompts`
-
-Course prompts and examples organized by section (15 files):
-
-| File                           | Description                            |
-| ------------------------------ | -------------------------------------- |
-| `prototype-example-prompts.md` | Example prompts for rapid prototyping  |
-| `section-02-prompts.md`        | Vibe Coding for Prototyping            |
-| `section-03-prompts.md`        | Getting Started with Claude Code       |
-| `section-04-prompts.md`        | Project Planning & Context Files       |
-| `section-05-prompts.md`        | Start Building DevStash                |
-| `section-06-prompts.md`        | GitHub Integration & Vercel Deployment |
-| `section-07-prompts.md`        | Custom Commands and Subagents          |
-| `section-08-prompts.md`        | Working with MCP Servers               |
-| `section-09-prompts.md`        | Implement Authentication               |
-| `section-10-prompts.md`        | Item CRUD & Unit Testing               |
-| `section-11-prompts.md`        | Item Display                           |
-| `section-12-prompts.md`        | Collection Display                     |
-| `section-13-prompts.md`        | Settings, Favorites & Tags             |
-| `section-14-prompts.md`        | Home and E-commerce                    |
-| `section-15-prompts.md`        | AI Features                            |
+1. **Follow along with the course** — Open the lesson notes in `course-lessons/` as you watch each video
+2. **Copy prompts** — Use the prompts in `prompts/` as starting points when building alongside the course
+3. **Reference specs** — Check `context/features/` for detailed feature specifications when implementing
+4. **Set up your own skills** — Copy the `skills/` folder into your project's `.claude/skills/` directory
+5. **Study the docs** — Read through `docs/` for architecture decisions and integration plans
 
 ---
 
-### `/custom-commands`
+## 🔄 Development Workflow
 
-Reusable CLI command templates for AI-assisted development workflows:
+The workflow we follow throughout the course for every feature:
 
-| File                      | Description                                                                                            |
-| ------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `feature.md`              | Complete feature implementation workflow template with actions: load, start, review, explain, complete |
-| `feature-with-testing.md` | Enhanced feature command that includes testing requirements                                            |
-| `cleanup.md`              | Code cleanup and file removal workflow                                                                 |
-| `research.md`             | Research documentation template for technical investigations                                           |
-| `list-components.md`      | Command to list and catalog all components in the codebase                                             |
-
----
-
-### `/custom-subagents`
-
-Specialized AI subagent definitions for automated tasks:
-
-| File              | Description                                                                   |
-| ----------------- | ----------------------------------------------------------------------------- |
-| `code-scanner.md` | Subagent for scanning code quality, performance issues, and security concerns |
-| `ui-reviewer.md`  | Subagent for reviewing UI/UX implementation against design specifications     |
+1. **Document** — Write the feature spec in `context/current-feature.md`
+2. **Branch** — Create a new branch (`feature/[name]` or `fix/[name]`)
+3. **Implement** — Build the feature with AI assistance
+4. **Create Tests** - Create unit tests for server actions
+5. **Run Tests** — Verify in the browser, run `npm run build` and `npm run test`
+6. **Iterate** — Adjust as needed
+7. **Commit** — Only after the build passes
+8. **Merge** — Merge to main
+9. **Delete Branch** — Clean up after merge
+10. **Review** — Review AI-generated code
+11. **Complete** — Mark as done in `current-feature.md`
 
 ---
 
-### `/diagrams-notes`
+## 🎓 Course Curriculum
 
-Course visual aids and supplementary resources. Reserved for diagrams, flowcharts, and additional notes.
+15 sections with 100+ lessons covering the full development lifecycle.
+
+### Section 1 — Welcome to the Course (7 lessons)
+
+Introduction to AI-assisted development, the current landscape, different levels of AI assistance, and common AI tools.
+
+### Section 2 — Vibe Coding for Prototyping (7 lessons)
+
+Learn rapid prototyping with AI — writing good prompts, iterating on output, and understanding the gap between prototypes and production code.
+
+### Section 3 — Claude Code Setup & Context Tokens (7 lessons)
+
+Claude Code overview, installation, plan mode, slash commands, context management, and the VS Code extension.
+
+### Section 4 — Project Planning & Context Files (5 lessons)
+
+Planning a project with AI, creating a project spec, setting up `CLAUDE.md`, coding standards, and the AI workflow.
+
+### Section 5 — Start Building DevStash (7 lessons)
+
+Initialize the project, create a quick prototype, set up mock data, and build the dashboard UI in three phases.
+
+### Section 6 — Database Integration & Initial Deploy (9 lessons)
+
+Set up Neon PostgreSQL, configure Prisma 7, run migrations, seed data, populate the dashboard, and deploy to Vercel.
+
+### Section 7 — Skills & Subagents (8 lessons)
+
+Create custom Claude Code skills (feature, cleanup, research, list-components) and subagents (code scanner, UI reviewer).
+
+### Section 8 — Working with MCP Servers (4 lessons)
+
+What is MCP, setting up Neon MCP, Context7, and Playwright MCP for automated testing.
+
+### Section 9 — Implement Authentication (12 lessons)
+
+NextAuth v5 in three phases, GitHub OAuth, email verification with Resend, forgot password, user profile, rate limiting with Upstash.
+
+### Section 10 — Item CRUD, Research & Unit Testing (9 lessons)
+
+Custom research skill, item listings, unit testing, item details drawer, edit/delete/create operations, and Playwright E2E tests.
+
+### Section 11 — Item Display & R2 Storage (8 lessons)
+
+Code editor, markdown editor, Cloudflare R2 setup, file/image uploads, display components, and code scanning.
+
+### Section 12 — Collections, Search, Favorites & More (11 lessons)
+
+Collection CRUD, adding items to collections, global search with command palette, pagination, settings, favorites, and pinned items.
+
+### Section 13 — Home & Stripe Integration (13 lessons)
+
+Homepage design and implementation, UI reviewer subagent, Stripe sandbox setup, integration plan, implementation in two phases, webhooks, and production testing.
+
+### Section 14 — Implement AI Features (5 lessons)
+
+OpenAI integration, auto-tagging, AI summaries, code explanation, and prompt optimization.
+
+### Section 15 — Code Audit & Final Deployment (5 lessons)
+
+UI review, refactoring reusable utilities, domain setup, Resend domain validation, and course wrap-up.
 
 ---
+
+## 📁 Folder Structure
+
+```
+coding-with-ai-course-resources/
+├── course-lessons/          # Lesson notes for all 15 sections
+├── prompts/                 # Prompts used in each section
+├── context/                 # Project context files (specs, features, research)
+├── docs/                    # Detailed project documentation
+├── skills/                  # Custom Claude Code skills
+├── custom-subagents/        # AI subagent definitions
+├── legacy-custom-commands/  # Older custom command format (pre-skills)
+├── diagrams-notes/          # Visual diagrams used in lessons
+├── CLAUDE.md                # Claude Code project instructions
+└── README.md
+```
 
 ### `/course-lessons`
 
-Complete course curriculum organized into 16 lessons:
+Lesson notes organized by section. Each file covers a single lesson with explanations, steps, and key concepts.
+
+### `/prompts`
+
+The actual prompts used throughout the course, organized by section. Use these as reference when following along or to see examples of effective AI prompting.
+
+| File                           | Section                          |
+| ------------------------------ | -------------------------------- |
+| `prototype-example-prompts.md` | Example prototyping prompts      |
+| `section-02-prompts.md`        | Vibe Coding for Prototyping      |
+| `section-03-prompts.md`        | Claude Code Setup                |
+| `section-04-prompts.md`        | Project Planning & Context Files |
+| `section-05-prompts.md`        | Start Building DevStash          |
+| `section-06-prompts.md`        | Database & Deployment            |
+| `section-07-prompts.md`        | Skills & Subagents               |
+| `section-08-prompts.md`        | MCP Servers                      |
+| `section-09-prompts.md`        | Authentication                   |
+| `section-10-prompts.md`        | Item CRUD & Testing              |
+| `section-11-prompts.md`        | Item Display & R2 Storage        |
+| `section-12-prompts.md`        | Collections, Search & More       |
+| `section-13-prompts.md`        | Home & Stripe                    |
+| `section-14-prompts.md`        | AI Features                      |
+| `section-15-prompts.md`        | Code Audit & Deployment          |
+
+### `/context`
+
+The project context files used by Claude Code during development. These are the files that live in the DevStash repo and guide AI behavior.
+
+- **Root files** — `project-overview.md`, `coding-standards.md`, `ai-interaction.md`, `current-feature.md`
+- **`/features`** — Individual feature specs (30+ files covering auth, dashboard, items, collections, AI, etc.)
+- **`/fixes`** — Fix specifications (e.g., GitHub OAuth redirect fix)
+- **`/research`** — Technical research docs (AI integration, item CRUD patterns, Stripe)
+- **`/screenshots`** — UI mockups and design references
+
+### `/docs`
+
+Detailed project documentation and architecture plans:
+
+| File                         | Description                                    |
+| ---------------------------- | ---------------------------------------------- |
+| `project-spec.md`            | Master project specification                   |
+| `item-types.md`              | All 7 system item types with field definitions |
+| `item-crud-architecture.md`  | CRUD operation architecture                    |
+| `stripe-integration-plan.md` | Stripe payment integration plan                |
+| `ai-integration-plan.md`     | AI features integration plan                   |
+
+### `/skills`
+
+Custom Claude Code skills created during the course:
+
+| Skill              | Description                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| `feature/`         | Feature implementation workflow with actions (load, start, review, explain, complete, test) |
+| `cleanup/`         | Code cleanup and file removal                                                               |
+| `research/`        | Technical research documentation                                                            |
+| `list-components/` | List and catalog all components in a codebase                                               |
+
+### `/custom-subagents`
+
+Specialized AI subagent definitions:
+
+| Subagent              | Description                                              |
+| --------------------- | -------------------------------------------------------- |
+| `code-scanner.md`     | Scans for code quality, performance, and security issues |
+| `ui-reviewer.md`      | Reviews UI/UX against design specifications              |
+| `refactor-scanner.md` | Identifies refactoring opportunities                     |
+
+### `/diagrams-notes`
+
+Visual diagrams used in lesson slides — levels of AI assistance, prototyping, context & tokens, migrations workflow, MCP architecture, and more.
+
+### `/legacy-custom-commands`
+
+The older custom command format (before Claude Code skills were introduced). Kept for reference.
 
 ---
 
-### `/sql-queries`
+## 🛠️ Course Project Tech Stack
 
-Database scripts and queries:
-
-| File                   | Description                                                                                                |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `add_system_types.sql` | SQL script to seed the database with system item types (Snippet, Prompt, Command, Note, File, Image, Link) |
-
----
-
-## Development Workflow
-
-The recommended workflow for features and fixes:
-
-1. **Document** - Document the feature in `context/current-feature.md`
-2. **Branch** - Create new branch (`feature/[name]` or `fix/[name]`)
-3. **Implement** - Build the feature following specifications
-4. **Test** - Verify in browser, run `npm run build`
-5. **Iterate** - Make adjustments as needed
-6. **Commit** - Only after build passes
-7. **Merge** - Merge to main branch
-8. **Delete Branch** - Clean up after merge
-9. **Review** - Review AI-generated code
-10. **Complete** - Mark as completed in `current-feature.md`
+| Category     | Technology                   |
+| ------------ | ---------------------------- |
+| Framework    | Next.js (React 19)           |
+| Language     | TypeScript (strict mode)     |
+| Database     | Neon PostgreSQL + Prisma ORM |
+| Auth         | NextAuth v5 (Email + GitHub) |
+| Styling      | Tailwind CSS v4 + shadcn/ui  |
+| File Storage | Cloudflare R2                |
+| AI           | OpenAI GPT-5-Nano            |
+| Payments     | Stripe                       |
+| Deployment   | Vercel                       |
+| Main AI Tool | Claude Code (Opus 4.5/4.6)   |
 
 ---
 
-## License
+## 📄 License
 
-This is educational course content. Please refer to the course terms of use for licensing information.
+This project is licensed under the [MIT License](LICENSE).

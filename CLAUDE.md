@@ -1,31 +1,19 @@
 # DevStash
 
-A developer knowledge hub for snippets, prompts, commands, notes, files, images, links and custom item types.
+A developer knowledge hub for snippets, commands, prompts, notes, files, images, links and custom types.
 
 ## Context Files
 
-Read these for full project context:
+Read the following to get the full context of the project:
 
-- @context/project-overview.md: Features, data models, tech stack, UI/UX
-- @context/coding-standards.md: Code conventions and patterns
-- @context/ai-interaction.md : Workflow and communication guidelines
-- @context/current-feature.md: What we are currently working on
+- @context/project-overview.md
+- @context/coding-standards.md
+- @context/ai-interaction.md
+- @context/current-feature.md
 
-## Tech Stack
+## Commands
 
-- Next.js 16 (App Router, Server Components)
-- TypeScript (strict)
-- Prisma + Neon PostgreSQL
-- NextAuth v5 (Email + GitHub)
-- Tailwind CSS v4 + shadcn/ui
-- Cloudflare R2 (file storage)
-- OpenAI GPT-4o Mini
-- Stripe (payments)
-
-## Quick Commands
-
-```bash
-npm run dev      # Start dev server
-npm run build    # Build for production
-npm run lint     # Run ESLint
-```
+- **Dev server**: `npm run dev` (runs on http://localhost:3000)
+- **Build**: `npm run build`
+- **Production server**: `npm run start`
+- **Lint**: `npm run lint`
