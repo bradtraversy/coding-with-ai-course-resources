@@ -117,7 +117,7 @@ Add: "Explain your approach and any important implementation details" when you w
 
 ## Example Template
 
-In large projects, I generally create my context documents before I do any prompts. This has a ton of information about what I want how I want it built. Then I'll tell the AI to read those documents, but if you're prompting directly with not context files, this is a good template to use:
+In large projects, I generally create my context documents before I do any prompts. This has a ton of information about what I want how I want it built. Then I'll tell the AI to read those documents, but if you're prompting directly with no context files, this is a good template to use:
 
 ```
 I want to build [SPECIFIC FEATURE/COMPONENT]

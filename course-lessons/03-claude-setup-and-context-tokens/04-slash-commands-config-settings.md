@@ -35,7 +35,7 @@ The **Config** tab is where you can specify certain things.
 
 I usually leave all of these on the defaults.
 
-The **Usage** tab shows your curren session usage as well as your weekly usage.
+The **Usage** tab shows your current session usage as well as your weekly usage.
 
 ## /help
 
@@ -43,7 +43,7 @@ This will give you 3 tabs to cycle. General, commands and Custom Commands.
 
 General shows you the shortcuts to do certain things. For instance, if you want to go into straight terminal mode, you can type exclamation. / for commands, @ for mentions and so on. We'll get into that stuff later.
 
-The Commands tab will show you all the available built-in commands. Then you have the Custom Commands tab, which will show you the custom commands that you creates, again, we'll get into that later as well.
+The Commands tab will show you all the available built-in commands. Then you have the Custom Commands tab, which will show you the custom commands that you create, again, we'll get into that later as well.
 
 Hit esc to exit.
 

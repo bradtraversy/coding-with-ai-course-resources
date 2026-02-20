@@ -2,7 +2,7 @@
 
 Now that you know the basics of context, let's start to look at working with Context in Claude Code.
 
-I know we haven't done much in our project yet, but we'll get to that. i want you to run the following command:
+I know we haven't done much in our project yet, but we'll get to that. I want you to run the following command:
 
 ```
 /context
@@ -32,14 +32,14 @@ Look at @package.json
 
 Now type `/context` again. Just looking at that file took 1k - 2k tokens. So it adds up VERY fast.
 
-So this is a very big part of your workflow is constantly checking what you have in context. Because if this fills up, Claude becomes a complete idiot and starts forgetting important stuff. If Im using a 200k model, I try not to let it get past around 175k. What sucks, is depending on the size of your project and your context files, you can spend 80, 90k just opening up a tab.
+So this is a very big part of your workflow is constantly checking what you have in context. Because if this fills up, Claude becomes a complete idiot and starts forgetting important stuff. If I'm using a 200k model, I try not to let it get past around 175k. What sucks, is depending on the size of your project and your context files, you can spend 80, 90k just opening up a tab.
 
 Now once your context is starting to fill up, you can do a couple things:
 
-- `/clear` - This will go a head and wipe your context clean. Just like the 50 First Dates movie, it's like a new day. Just keep in mind that Claude won't remember what you just had it do. There's different ways to handle this. What I'll do is have it create a summary document of what's been done and what is to be worked on next. Then you would pass that to the next context.
+- `/clear` - This will go ahead and wipe your context clean. Just like the 50 First Dates movie, it's like a new day. Just keep in mind that Claude won't remember what you just had it do. There's different ways to handle this. What I'll do is have it create a summary document of what's been done and what is to be worked on next. Then you would pass that to the next context.
 - `/compact` - Instead of nuking everything, compact will summarize your conversation and keep the important context while freeing up space. It basically says "hey, here's what we've been working on and what we've accomplished" in a condensed form. You lose the granular back-and-forth, but you keep the key decisions and current state. It's like writing notes at the end of the day instead of remembering every word of every conversation.
 
-Personally, I rather summarize and then clear the context. I've had better luck with that than using `/compact` and it frees up a lot more. You'll start to build your own workflow as you use it more.
+Personally, I'd rather summarize and then clear the context. I've had better luck with that than using `/compact` and it frees up a lot more. You'll start to build your own workflow as you use it more.
 
 ## Auto Compact
 

@@ -40,7 +40,7 @@ Not only can you spawn a built-in subagent but you can create completely custom 
 
 ## Personal & Project Agents
 
-you can create a personal agent which will be available to your user across projects or a project subagent, which is available to everyone in your project. Project is the more common option.
+You can create a personal agent which will be available to your user across projects or a project subagent, which is available to everyone in your project. Project is the more common option.
 
 Depending on the type, the location will be different:
 

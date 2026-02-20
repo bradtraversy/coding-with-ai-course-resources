@@ -4,7 +4,7 @@ We are just about ready. The one thing we have left is to add the domain to Rese
 
 Go to https://resend.com and click on "Domains" and add a new domain.
 
-From here, you need to copy the records to your domain registrar dashboard. There are a few TXT records and an MX record. Be sure to add the host and the value in your domain dashboard, then click save in Resend. It will take a couple minutes to propogate.
+From here, you need to copy the records to your domain registrar dashboard. There are a few TXT records and an MX record. Be sure to add the host and the value in your domain dashboard, then click save in Resend. It will take a couple minutes to propagate.
 
 ## Change The Onboarding Email
 

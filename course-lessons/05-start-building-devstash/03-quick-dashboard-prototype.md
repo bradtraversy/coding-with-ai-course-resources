@@ -6,7 +6,7 @@ I usually like to start with just the overall layout of the main area, which in 
 
 ## Quick Prototype
 
-We went over using vibe coding platforms for prototyping. I want to give that a shot and see if it gives me something I like. I don't to spend to much time on it. I just want a screenshot that we can use as a starting point.
+We went over using vibe coding platforms for prototyping. I want to give that a shot and see if it gives me something I like. I don't want to spend too much time on it. I just want a screenshot that we can use as a starting point.
 
 This will give Claude a visual reference, which is much better than just a text description. v0 is optimized for UI generation so why not take the load off Claude and give it to v0?
 

@@ -26,7 +26,7 @@ Scan this Next.js codebase for:
 - Security issues
 - Performance problems
 - Code quality
-- Code that can be broken up into seperate files/components
+- Code that can be broken up into separate files/components
 
 Only report actual issues. DO NOT report things that are not implemented yet. If there is no authentication, don't report as an issue.
 

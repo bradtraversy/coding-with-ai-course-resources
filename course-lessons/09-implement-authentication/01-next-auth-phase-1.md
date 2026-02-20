@@ -19,7 +19,7 @@ To summarize, the way that the adapter interacts with Edge serverless architectu
 
 ## What is Edge?
 
-If you are really intereseted in how this works, Edge is where your code runs geographically. Traditional servers run your code in one data center—say, Virginia. A user in Tokyo waits for the request to travel across the world and back. With Edge, your code runs on servers spread across the globe. The user in Tokyo hits a server in Tokyo. Faster response. The tradeoff: Edge servers are lightweight. They can't run everything—like database drivers. That's why we need to split our auth configuration.
+If you are really interested in how this works, Edge is where your code runs geographically. Traditional servers run your code in one data center—say, Virginia. A user in Tokyo waits for the request to travel across the world and back. With Edge, your code runs on servers spread across the globe. The user in Tokyo hits a server in Tokyo. Faster response. The tradeoff: Edge servers are lightweight. They can't run everything—like database drivers. That's why we need to split our auth configuration.
 
 ## Github Keys
 

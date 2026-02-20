@@ -6,7 +6,7 @@ You have a few options when using Claude Code. You can run it in the terminal li
 
 To install, just like any other extension, click on the extension tab on the sidebar and search for "Claude Code". Then install it.
 
-From there, you can hit `ctrl+shift+p` and search for "Open New Claude Code Tab". Each tab will have it's own context.
+From there, you can hit `ctrl+shift+p` and search for "Open New Claude Code Tab". Each tab will have its own context.
 
 ## Differences
 

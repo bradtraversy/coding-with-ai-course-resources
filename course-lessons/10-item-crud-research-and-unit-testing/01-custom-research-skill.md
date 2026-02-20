@@ -22,7 +22,7 @@ Now, you can run the following:
 /research item-types-research.md
 ```
 
-This will them output comprehensive documentation about the types to `docs/item-types.md`. Take a look at it.
+This will then output comprehensive documentation about the types to `docs/item-types.md`. Take a look at it.
 
 ## Item CRUD Research
 

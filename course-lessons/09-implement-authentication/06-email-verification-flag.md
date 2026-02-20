@@ -7,7 +7,7 @@ Let's create a flag to easily disable the verification feature.
 I will run the following feature prompt:
 
 ```text
-/feature load Add a flag that can easlity be changed to enable and disable email verification. Right now, we have no domain linked to Resend, so only the Resend email can be registered. I want to be able to disable it. We can use an env variable but I am open to other options
+/feature load Add a flag that can easily be changed to enable and disable email verification. Right now, we have no domain linked to Resend, so only the Resend email can be registered. I want to be able to disable it. We can use an env variable but I am open to other options
 ```
 
 See what it says as far as options and then run `/feature start`

@@ -8,7 +8,7 @@ I am going to do it in one go. It is all just presentational and we have the des
 
 ## Create the Homepage Spec File
 
-Usually I give you the spec file, but I want to hav you create your own this time. Especially since you may have a much different mockup. Let's run the following prompt:
+Usually I give you the spec file, but I want to have you create your own this time. Especially since you may have a much different mockup. Let's run the following prompt:
 
 ```text
 Create a spec file at @context/features called homepage-spec.md to take the mockup in the @prototypes/homepage folder and create the actual app homepage from it. Here are some guidelines to add in the spec: 

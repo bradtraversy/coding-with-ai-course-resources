@@ -1,6 +1,6 @@
 # AI Workflow & Current Feature
 
-In this lesson, I want to establish our ongoing AI workflow. Meaning, when we have a feature or a fix, what exactly do we want it to do? Everything you do should be structured as oppose to willy nilly vibe coding, which if you can't tell by now, I despise.
+In this lesson, I want to establish our ongoing AI workflow. Meaning, when we have a feature or a fix, what exactly do we want it to do? Everything you do should be structured as opposed to willy nilly vibe coding, which if you can't tell by now, I despise.
 
 ## The Process
 
@@ -20,7 +20,7 @@ After it's implemented, you want to test. It will be manual testing at first but
 
 Next, if it doesn't work or something is off, you're going to iterate and make changes and repeat.
 
-Once it does give you the result you want, you're going to commit your code to the branch. If you we're working on a team, this is where you'll make a PR.
+Once it does give you the result you want, you're going to commit your code to the branch. If you were working on a team, this is where you'll make a PR.
 
 Once we commit to the branch, we merge with main. Then I usually delete the old branch.
 

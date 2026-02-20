@@ -4,7 +4,7 @@ In the last lesson, we did an auth audit and one of the main things it suggested
 
 ## Upstash
 
-We will be using Upstash for this, which is a great service that gives you a ton for free. It is used for serverless Redis databases. We use it for caching, rate limiting, session storage and more. It works greate with Vercel/Edge functions and has a simple SDK.
+We will be using Upstash for this, which is a great service that gives you a ton for free. It is used for serverless Redis databases. We use it for caching, rate limiting, session storage and more. It works great with Vercel/Edge functions and has a simple SDK.
 
 Create a free account at https://console.upstash.com/. You can just log in with Google or Github. The free tier includes 10k commands/day which is plenty for rate limiting auth endpoints.
 

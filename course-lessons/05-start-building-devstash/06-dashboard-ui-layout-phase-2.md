@@ -2,7 +2,7 @@
 
 We want to start phase 2 of the dashboard, which will be the sidebar. We want it to be collapsible, responsive and display the collections and item types.
 
-We want to stick to the workflow, which is documenting the feature in the `current-feature.md` file, then implmenting it, testing it, iterating, etc.
+We want to stick to the workflow, which is documenting the feature in the `current-feature.md` file, then implementing it, testing it, iterating, etc.
 
 
 ## Using Spec Files To Update The Current Feature

@@ -6,7 +6,7 @@ The reason that I want to use it is because it allows Claude or whatever AI tool
 
 ## Install PlayWright
 
-If you go to https://github.com/microsoft/playwright-mcp you will see a list of clients to chose from. The Claude Code command on the project scope is:
+If you go to https://github.com/microsoft/playwright-mcp you will see a list of clients to choose from. The Claude Code command on the project scope is:
 
 ```bash
 claude mcp add playwright --scope project npx @playwright/mcp@latest

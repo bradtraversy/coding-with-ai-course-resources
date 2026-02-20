@@ -18,7 +18,7 @@ Go to the top left and click your company name/logo and you should see "Switch T
 
 ## Create Product In Stripe
 
-We need to create the pro membership product within the Stripe dashboard. Click on"Product Catalog->Create Product" and call it **Devstash Pro** and add **8$** for the price and **Monthly** for billing period. Save that. Now click on the product you just created and add a new price of **$72** for the **yearly** billing period.
+We need to create the pro membership product within the Stripe dashboard. Click on"Product Catalog->Create Product" and call it **Devstash Pro** and add **$8** for the price and **Monthly** for billing period. Save that. Now click on the product you just created and add a new price of **$72** for the **yearly** billing period.
 
 ## Configure Customer Portal
 

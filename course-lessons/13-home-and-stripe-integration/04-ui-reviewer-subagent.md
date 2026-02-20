@@ -13,7 +13,7 @@ Let's create a new file at `.claude/subagents/ui-reviewer.md`. You can find this
 I would suggest restarting your Claude Code instance. Then run the following prompt:
 
 ```text
-Use the @ui-reviewer subagent to check the websites user interface and give feedback. Check the homepage and dashbaord pages. Use the demo@devstash.io/12345678 login to access protected areas
+Use the @ui-reviewer subagent to check the websites user interface and give feedback. Check the homepage and dashboard pages. Use the demo@devstash.io/12345678 login to access protected areas
 ```
 
 Fix what you think is necessary.

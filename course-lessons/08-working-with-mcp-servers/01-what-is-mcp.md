@@ -60,7 +60,7 @@ There are local and remote MCP servers. Which you use really depends on what you
 
 ## MCP Setup
 
-Depending on which AI tool you're using, the setup will be a little different. If you're using Cursor, you can actually click a button to install many MCP servers. For Claude, you can run Bash commands, but ultimately, its just creating a JSON file with the MCP server info.
+Depending on which AI tool you're using, the setup will be a little different. If you're using Cursor, you can actually click a button to install many MCP servers. For Claude, you can run Bash commands, but ultimately, it's just creating a JSON file with the MCP server info.
 
 ## Scopes
 
@@ -85,6 +85,6 @@ claude mcp add --transport http stripe --scope local https://mcp.stripe.com
 
 ## MCP Tools & The Context Window
 
-This is something that is very important. MCP servers are incredibly useful BUT there is a tradeoff. They can use quite a few tokens just to load. For instance, I think the Neon MCP takes like 20k tokens to load in or something like that. So if you don't plan on using them for a while, you may want to disconnect them. Its only a single command to connect and disconnect.
+This is something that is very important. MCP servers are incredibly useful BUT there is a tradeoff. They can use quite a few tokens just to load. For instance, I think the Neon MCP takes like 20k tokens to load in or something like that. So if you don't plan on using them for a while, you may want to disconnect them. It's only a single command to connect and disconnect.
 
 Next we will go ahead and setup the Neon MCP server.

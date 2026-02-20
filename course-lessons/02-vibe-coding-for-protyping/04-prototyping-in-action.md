@@ -3,7 +3,7 @@
 So we talked about how prototyping can really help you get your idea out there. I've needed to do this for multiple reasons:
 
 1. Just to get an idea of what my project will look like. Then throw it away.
-2. Create a prototype as a starting point before moving writing any real code.
+2. Create a prototype as a starting point before writing any real code.
 3. To show someone else my idea
 
 There's others as well, but these three I have done quite a bit.

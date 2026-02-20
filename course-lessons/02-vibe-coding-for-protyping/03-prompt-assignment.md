@@ -1,6 +1,6 @@
 ## Practice Exercise: Landing Page Prompt
 
-Before we move on, I want you to practice writing a good prompt. We're going to use Claude.ai to generate a landing page for a fictional SaaS product. It will actually create HTML,CSS and JS projects and render them.
+Before we move on, I want you to practice writing a good prompt. We're going to use Claude.ai to generate a landing page for a fictional SaaS product. It will actually create HTML, CSS and JS projects and render them.
 
 **Your Assignment:**
 

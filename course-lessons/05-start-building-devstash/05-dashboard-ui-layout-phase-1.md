@@ -7,7 +7,7 @@ We want to start to construct our dashboard but I want to do it in sections inst
 3. Layout With Top Bar
 4. Dark Mode Default
 
-We want to stick to the workflow, which is documenting the feature in the `current-feature.md` file, then implmenting it, testing it, iterating, etc.
+We want to stick to the workflow, which is documenting the feature in the `current-feature.md` file, then implementing it, testing it, iterating, etc.
 
 
 ## Using Spec Files To Update The Current Feature

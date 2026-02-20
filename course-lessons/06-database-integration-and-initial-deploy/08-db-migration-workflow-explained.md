@@ -18,7 +18,7 @@ Then later if we decide to add a new table or field or anything like that, we ne
 npx prisma migrate dev --name <migration_name>
 ```
 
-You dont' need to run this, it is just to show you the command.
+You don't need to run this, it is just to show you the command.
 
 This generates a migration file in the `prisma/migrations` folder. The file contains the SQL needed to transform the database from its current state to match your updated schema.
 

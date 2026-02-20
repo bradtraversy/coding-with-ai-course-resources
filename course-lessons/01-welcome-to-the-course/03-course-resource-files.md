@@ -20,7 +20,7 @@ The context folder has a few things. In simple terms, context refers to what the
 
 #### `/context/features`
 
-In this course, we use a specific workflow to add features and that workflow includes creating or using a feature spec file. We'll use straight prompts for some simple stuff and in the begining to prototype, but typically we'll be loading info from these feature spec files into the current feature and then implementing it. We'll have a custom `/features` command or skill to load these files up and do different things like start, test, review, etc.
+In this course, we use a specific workflow to add features and that workflow includes creating or using a feature spec file. We'll use straight prompts for some simple stuff and in the beginning to prototype, but typically we'll be loading info from these feature spec files into the current feature and then implementing it. We'll have a custom `/features` command or skill to load these files up and do different things like start, test, review, etc.
 
 #### `/context/fixes`
 

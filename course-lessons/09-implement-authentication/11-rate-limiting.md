@@ -13,11 +13,11 @@ Now run:
 /feature start
 ```
 
-It should create a utility for rate limiting and then add a check to each of the auth routes with specific number of attempts and a specifici length. If you want to change any of these you can.
+It should create a utility for rate limiting and then add a check to each of the auth routes with specific number of attempts and a specific length. If you want to change any of these you can.
 
 Once done, test by trying to login 4 times. On the 4th attempt you should get an error and 429 response.
 
-If everything works as expectected, run:
+If everything works as expected, run:
 
 ```
 /feature review

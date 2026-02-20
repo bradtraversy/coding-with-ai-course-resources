@@ -8,7 +8,7 @@ We'll talk about the different levels, then look at some of the tools.
 
 ## Level One: Tab completion and autocomplete
 
-This is where you do most of the coding yourself, but you get some help through autocomplete and suggestions. This is **passive AI** as oppose to some of the other **agentic AI** tools. These will suggest the next line of code as you're typing. You hit tab, it fills it in. You're still writing most of the code yourself, the AI is just helping you type faster. This is maximum control, but it's also the slowest approach. Also, It think it's important to mention if you're just learning a language or framework, this is what you SHOULD use, if any AI at all.
+This is where you do most of the coding yourself, but you get some help through autocomplete and suggestions. This is **passive AI** as opposed to some of the other **agentic AI** tools. These will suggest the next line of code as you're typing. You hit tab, it fills it in. You're still writing most of the code yourself, the AI is just helping you type faster. This is maximum control, but it's also the slowest approach. Also, It think it's important to mention if you're just learning a language or framework, this is what you SHOULD use, if any AI at all.
 
 ## Level 2 is AI-assisted editors
 
@@ -48,9 +48,9 @@ It seems like there's 10+ new AI tools released every day. So I couldn't go over
 
 These are autocomplete and suggestion tools. They are usually installed as editor extensions.
 
-- Github Copilot: This was one of the first of it's kind. It started with autocomplete and suggestions. Now it has a chat interface like the level 3+ tools.
+- Github Copilot: This was one of the first of its kind. It started with autocomplete and suggestions. Now it has a chat interface like the level 3+ tools.
 - Tabnine: Was one of the first AI autocomplete tools.
-- VS Code has it's own AI assisted autocomplete.
+- VS Code has its own AI assisted autocomplete.
 
 #### Level 2 Tools
 
@@ -80,7 +80,7 @@ These tools are basically like robot developers. I'll admit that I haven't used 
 
 #### Level 5 Tools
 
-These tools are browser based and take an intial prompt to create something. The only thing I find these useful for is prototyping.
+These tools are browser based and take an initial prompt to create something. The only thing I find these useful for is prototyping.
 
 - Lovable: Browser interface where you give an initial prompt to one-shot or prototype
 - Bolt

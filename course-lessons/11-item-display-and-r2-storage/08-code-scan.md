@@ -13,7 +13,7 @@ Run `/cleanup`
 Let's run the following prompt:
 
 ```text
-Use the code scanner to audit the codebase and look for things like security issues, optimizations, duplicate code, etc. Try not to report things that are jus not implemented yet or false positives.
+Use the code scanner to audit the codebase and look for things like security issues, optimizations, duplicate code, etc. Try not to report things that are just not implemented yet or false positives.
 ```
 
 Depending on what you get, use your best judgement to fix or optimize. Be sure to open a new branch before making changes.

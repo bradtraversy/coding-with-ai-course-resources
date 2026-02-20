@@ -3,7 +3,7 @@
 
 I want to touch on something real quick because I think there are multiple ways to take this course and different levels of benefiting from it.
 
-1. Take it front to back: The first option is to follow along with every single video and build the Devstash project with me using the same tools, which would be Claude Code. I said and I'll keep saying that your result does not have to and will not be identical to mine. Even if you use the same tools and prompts and feature spec files, it will still create different code. And that is 100% fine. In fact, it's better because it's more realistic and you may have issues that you need to solve on your own. It shouldn't be too hard to fix bugs because you have AI at your disposale and you should already know the fundamentals of what you're building. 
+1. Take it front to back: The first option is to follow along with every single video and build the Devstash project with me using the same tools, which would be Claude Code. I said and I'll keep saying that your result does not have to and will not be identical to mine. Even if you use the same tools and prompts and feature spec files, it will still create different code. And that is 100% fine. In fact, it's better because it's more realistic and you may have issues that you need to solve on your own. It shouldn't be too hard to fix bugs because you have AI at your disposal and you should already know the fundamentals of what you're building. 
 
 Now I understand that some of you may not be JavaScript developers, hell you may not even be web developers. Which is also ok, because you can use the workflow I'll teach you with any project of any kind. 
 

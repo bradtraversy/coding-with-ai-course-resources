@@ -2,7 +2,7 @@
 
 We want to start phase 3 of the dashboard, which will be the main area with the latest collections, pinned and recent items.
 
-We want to stick to the workflow, which is documenting the feature in the `current-feature.md` file, then implmenting it, testing it, iterating, etc.
+We want to stick to the workflow, which is documenting the feature in the `current-feature.md` file, then implementing it, testing it, iterating, etc.
 
 
 ## Using Spec Files To Update The Current Feature

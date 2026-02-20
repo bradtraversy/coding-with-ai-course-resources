@@ -38,7 +38,7 @@ You need the item types from the data as well as the demo user. Run this in the 
 Can you give me SQL queries to add the system item types and the demo user to the prod db?
 ```
 
-One you get those queries, go to the SQL Editor in Neon, make sure "Production" is selected in the sidebar and then run the queries it gives you.
+Once you get those queries, go to the SQL Editor in Neon, make sure "Production" is selected in the sidebar and then run the queries it gives you.
 
 ### Redeploy
 

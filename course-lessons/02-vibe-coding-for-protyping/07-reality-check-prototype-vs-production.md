@@ -29,7 +29,7 @@ Vibe-coded projects accumulate technical debt fast because:
 
 So if you quickly prototype or vibe code a project as your actual production application, often times, you'll get this illusion.
 
-<img src="../images/vibe-coding-iceburg.jpg" width="700" />
+<img src="../images/vibe-coding-iceberg.jpg" width="700" />
 
 Later when we create our SaaS, the AI will have context of not just the current app, but the plans for the future. We can do this with memory or context files.
 

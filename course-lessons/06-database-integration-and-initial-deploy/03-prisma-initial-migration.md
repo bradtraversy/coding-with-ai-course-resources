@@ -1,7 +1,7 @@
 # Prisma Initial Migration
 
 
-Once Prisma get's setup, you want to run the initial migration. It may ask you if you want to do this, if not, then do it yourself:
+Once Prisma gets set up, you want to run the initial migration. It may ask you if you want to do this, if not, then do it yourself:
 
 ```text
 The .env has our development branch connection string. Go ahead and run the initial migration. Never run db push. Always run a migration so we can replicate in production.
@@ -25,7 +25,7 @@ This would run ALL migrations in your **prisma/migrations** folder. This keeps i
 
 ## Add Section To Interactions File
 
-I think we should add a database section to the `context/coding-standars.md` file:
+I think we should add a database section to the `context/coding-standards.md` file:
 
 ```markdown
 ## Database

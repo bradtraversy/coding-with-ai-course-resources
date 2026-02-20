@@ -1,6 +1,6 @@
 # Setting Up A Domain
 
-So our project is ready for launch. At the moment, we are using a Vercel domain name, which is ok for personal projects, testing and development, but no what you want in a real project. I have registered the domain "devstash.io", so I'm going to show you how I would set it up.
+So our project is ready for launch. At the moment, we are using a Vercel domain name, which is ok for personal projects, testing and development, but not what you want in a real project. I have registered the domain "devstash.io", so I'm going to show you how I would set it up.
 
 I registered it at Namecheap, so I have that dashboard open and click "Manage" for the domain. Make sure that "Namecheap Basic DNS" is selected and then click on the  "Advanced DNS" tab. From here, we need to add a couple records from Vercel. So let's get those setup.
 
@@ -8,7 +8,7 @@ I registered it at Namecheap, so I have that dashboard open and click "Manage" f
 
 In Vercel's dashboard, I will go to the project and then click on "Domains". From there, click "Add Existing". Enter the domain name and select the defaults.
 
-By default, the www version redirects to the non-www version. You can keep that if you want, but I like the opposite. So I will click "Edit" for the non www version and select "Production". Then for the www-version, I will select "308 Permanant Redirect". That way, it always uses the non-www version.
+By default, the www version redirects to the non-www version. You can keep that if you want, but I like the opposite. So I will click "Edit" for the non www version and select "Production". Then for the www-version, I will select "308 Permanent Redirect". That way, it always uses the non-www version.
 
 ## Add Values to Namecheap
 
@@ -25,7 +25,7 @@ It should also install an SSL, so you will use https.
 
 We have a bunch of places where we added the Vercel URL that need to be changed to the new domain. First off, let's go into the environment variables in Vercel and change what we need to there.
 
-You want to edit the following variables to the new domain in the Vercel dashboard as well as the `.env._production` file:
+You want to edit the following variables to the new domain in the Vercel dashboard as well as the `.env.production` file:
 
 - NEXT_PUBLIC_APP_URL="YOUR_DOMAIN"
 - AUTH_URL="YOUR_DOMAIN"

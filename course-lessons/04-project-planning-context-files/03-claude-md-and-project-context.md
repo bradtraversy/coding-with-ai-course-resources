@@ -59,7 +59,7 @@ npm run lint     # Run ESLint
 
 So we have our main `CLAUDE.md` context file and we have a documentation spec file as well. I want that spec to always be in context for Claude to reference. So we want to point to it in the `CLAUDE.md` file. However, I like to run it through AI and have it format it nicely and add things like the Prisma models and data formatting. Then I'll have that new formatted file put in the a folder called `context`.
 
-Let's go ahead and run this through an AI. Which model and program you want to use is up to you, however, where this is more high-level and it doesn't need anything from our project beside what we give it, I'll usually use either https://chatgpt.com or https://claude.ai. you can certainly use your CLI or IDE as well.
+Let's go ahead and run this through an AI. Which model and program you want to use is up to you, however, where this is more high-level and it doesn't need anything from our project beside what we give it, I'll usually use either https://chatgpt.com or https://claude.ai. You can certainly use your CLI or IDE as well.
 
 So let's open up https://chatgpt.com and add the following prompt:
 

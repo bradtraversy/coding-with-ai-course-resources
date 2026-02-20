@@ -6,7 +6,7 @@ Now we need to setup the Stripe CLI so that we can setup to test our webhooks lo
 
 A webhook lets our application know when something important happens such as a payment succeeding, subscription being canceled, etc. We need to know this stuff because we need certain things to happen with these events.
 
-Instead of your app constantly asking Stripe "did anything happen yet?" (polling), Stripe just pings your endpoint when events occur. You set up a URL on your server, Stripe sends a POST request with th se event data, and your code handles it however you need.
+Instead of your app constantly asking Stripe "did anything happen yet?" (polling), Stripe just pings your endpoint when events occur. You set up a URL on your server, Stripe sends a POST request with these event data, and your code handles it however you need.
 
 The way this works is we setup an API endpoint in our application that the webhook can send a request to. Something like `/api/webhooks/stripe`. When a user pays an invoice or cancels a subscription, etc, Stripes webhook sends a request to our API and then we update our database and do whatever it is we want to do when that event happens. Fo instance, if a user pays an invoice, you may have a function called `updateUser` that sets the **isPro** to true and records payment.
 

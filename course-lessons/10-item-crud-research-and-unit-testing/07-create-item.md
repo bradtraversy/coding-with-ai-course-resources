@@ -16,7 +16,7 @@ Snippets and commands will have an editor but we will do that later.
 
 Iterate where necessary.
 
-Make sure that when you add an item, it show on the page right away with no refresh needed. Sometimes it forgets to do things like this:
+Make sure that when you add an item, it shows on the page right away with no refresh needed. Sometimes it forgets to do things like this:
 
 ```jsx
 useEffect(() => {

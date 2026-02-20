@@ -15,7 +15,7 @@ Depending on your results, you may want to optimize/fix any issues. It will prob
 If there are issues you think should be fixed that are quick wins, meaning little to no risk, add them as a new feature with the prompt below:
 
 ```text
-We have not implemented some this yet. We will work on it soon. Add any quick wins that carry little to no risk to the @context/current-feature.md file
+We have not implemented some of this yet. We will work on it soon. Add any quick wins that carry little to no risk to the @context/current-feature.md file
 ```
 
 Now we can run:

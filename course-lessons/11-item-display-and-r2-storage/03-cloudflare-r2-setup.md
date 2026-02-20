@@ -1,6 +1,6 @@
 # Cloudflare R2 Setup
 
-For files and images, we will be using Cloudflare R2. If you want to use an alternative like Amazon S3, that's file as well.
+For files and images, we will be using Cloudflare R2. If you want to use an alternative like Amazon S3, that's fine as well.
 
 We need to get our API keys and some other values. Put this in your `.env` for now and we will add each value:
 

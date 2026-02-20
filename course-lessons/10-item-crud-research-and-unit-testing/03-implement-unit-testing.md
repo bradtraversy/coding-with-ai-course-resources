@@ -21,7 +21,7 @@ Instead of manually telling the AI to test or depending on context files that do
 
 Open the `/.claude/commands/feature.md` file and add the following:
 
-Add "test" here om the description and the hint:
+Add "test" here on the description and the hint:
 
 ```markdown
 ---

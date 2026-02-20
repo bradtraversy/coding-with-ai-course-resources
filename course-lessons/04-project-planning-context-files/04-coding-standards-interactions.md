@@ -1,6 +1,6 @@
 # Coding Standards & Interaction Rules
 
-I know you guys are anxious to actually build something and I get that, but as I mentioned earlier, this is what AI coding is going to be like. Where it takes the place of the low-level syntax, we now work at a higher level to make sure it does it's job and that means making sure that it knows what it's building and how to build it and test it. So there's much more documentation than when we manually write code.
+I know you guys are anxious to actually build something and I get that, but as I mentioned earlier, this is what AI coding is going to be like. Where it takes the place of the low-level syntax, we now work at a higher level to make sure it does its job and that means making sure that it knows what it's building and how to build it and test it. So there's much more documentation than when we manually write code.
 
 I have attached the files I will add in this lesson to the downloads. They're also in the main repo. So you can just take the files from the downloads and put them into your structure.
 
