@@ -97,7 +97,7 @@ Full‑text search across:
 - Explain Code
 - Prompt optimization
 
-> AI powered by **OpenAI GPT‑4o Mini**
+> AI powered by **OpenAI gpt-5-nano**
 
 ---
 
@@ -210,7 +210,7 @@ model ItemTag {
 | File Storage | Cloudflare R2                |
 | CSS/UI       | Tailwind CSS v4 + ShadCN     |
 | Auth         | NextAuth v5 (email + GitHub) |
-| AI           | OpenAI GPT‑4o Mini           |
+| AI           | OpenAI gpt-5-nano            |
 | Deployment   | Vercel (likely)              |
 | Monitoring   | Sentry (later)               |
 

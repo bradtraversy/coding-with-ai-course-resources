@@ -171,7 +171,7 @@ PostgreSQL & Prisma
 - IMPORTANT: NEVER use db push or directly update db structure. We will create migrations that will be run in dev and then in prod.
 
 **AI Integration**
-OpenAI GPT-4o Mini
+OpenAI gpt-5-nano model
 
 **CSS Frameworks**
 Tailwind CSS v4 with ShadCN UI

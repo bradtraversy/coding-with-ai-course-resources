@@ -4,7 +4,7 @@ In this lesson, we will setup our Open AI account, add the api key and research 
 
 ## Open AI Account & API Key
 
-Since we want to use the GPT4o-mini model in our project, we need to create an account with Open AI and get an API key.
+Since we want to use the gpt-5-nano model in our project, we need to create an account with Open AI and get an API key.
 
 Go to https://openai.com/api/ and log in. Click on the gear icon in the top right and then "API Keys" on the left.
 
@@ -32,6 +32,6 @@ There is a course file at `context/research/ai-integration-research.md`. Move th
 
 This will create a new plan document at `/docs/ai-integration-plan.md`.
 
-Now we have a full plan. Look it over and ask for clarification if you do not understand something. 
+Now we have a full plan. Look it over and ask for clarification if you do not understand something.
 
 In the next lesson, we will construct our first feature from this plan.

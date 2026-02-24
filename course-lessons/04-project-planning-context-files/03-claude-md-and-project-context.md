@@ -20,7 +20,7 @@ Generally, what I like to put are the following:
 
 So let's add the following to the `CLAUDE.md` file:
 
-```markdown
+````markdown
 # DevStash
 
 A developer knowledge hub for snippets, prompts, commands, notes, files, images, links and custom item types.
@@ -42,7 +42,7 @@ Read these for full project context:
 - NextAuth v5 (Email + GitHub)
 - Tailwind CSS v4 + shadcn/ui
 - Cloudflare R2 (file storage)
-- OpenAI GPT-4o Mini
+- OpenAI gpt-5-nano
 - Stripe (payments)
 
 ## Quick Commands
@@ -52,8 +52,9 @@ npm run dev      # Start dev server
 npm run build    # Build for production
 npm run lint     # Run ESLint
 ```
+````
 
-```
+````
 
 ## Project Spec -> Project Overview Context
 
@@ -67,7 +68,7 @@ So let's open up https://chatgpt.com and add the following prompt:
 I'm planning a SaaS project called DevStash. Below are my planning notes. Review and clean up as you see fit.  Format with things like Prisma models (specify it is a rough draft), diagrams, Icons, links and any other info that you think is relevant to this project. Put it in a file called project-overview.md:
 
 [PASTE YOUR SPEC FILE]
-```
+````
 
 You should get a new file with your formatted document. Put that `project-context.md` file in the `context` folder.
 
