@@ -17,3 +17,5 @@ Read the following to get the full context of the project:
 - **Build**: `npm run build`
 - **Production server**: `npm run start`
 - **Lint**: `npm run lint`
+
+**IMPORTANT:** Do not add Claude to any commit messages
