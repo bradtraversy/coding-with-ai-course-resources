@@ -10,7 +10,7 @@ Let's just use it to plan a new feature for our Python script.
 Enable plan mode and enter the following prompt:
 
 ```text
-I want to make this joke script more interactive. Give me some ideas.
+Make some suggestions to make this app a bit more interactive and interesting
 ```
 
 It will show you a list of ideas. Just go through the prompts and see what it offers you.

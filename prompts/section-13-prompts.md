@@ -1,6 +1,6 @@
 # Section 13 Prompts
 
-## Homepage Mockup Prompts
+## Homepage HTML/CSS Mockup Prompts
 
 ```text
 Make the icons in the hero a bit bigger and they should not move so fast on mouse cursor reaction

@@ -46,7 +46,7 @@ Create a new file at src/lib/mock-data.ts and create a simple data structure for
 ## First Feature (Dashboard Layout) Prompt
 
 ```text
-Update the @context/current-feature.md to add the feature from @context/features/dashboard-phase-1-spec.md and set the status to In Progress.
+Update the @context/current-feature.md to add the feature from @context/features/dashboard-phase-1-spec.md and set the status to "In Progress".
 ```
 
 ```text
@@ -63,51 +63,6 @@ Set the current feature in @context/current-feature.md to completed, remove the 
 Commit to the feature branch, merge to main, delete the feature branch and push to remote.
 ```
 
-## Prisma Setup Prompt
-
-```text
-Add a new current feature to @context/current-feature.md to implement Neon PostgreSQL and Prisma. Check @context/features/database-spec.md for requirements.
-```
-
-```text
-Open a new branch and implement the current feature. Pay special attention to the details about Prisma 7.
-```
-
-```text
-The .env has our development branch connection string. Go ahead and run the initial migration. Never run db push. Always run a migration so we can replicate in production.
-```
-
-## Testing Script Prompt
-
-```text
-Create a folder called 'scripts' and a file called 'test-db.ts' to test the database? Don't forget we need to install dotenv to access the env vars from the script
-```
-
-## Seed Data Feature Prompt
-
-```text
-Add a new current feature to the @context/current-feature.md to seed some sample data.
-
-Create a seed script at @prisma/seed.ts. Reference @context/features/seed-spec.md for the data requirements and @prisma/schema.prisma for the database structure. You can overwrite the current seed script if there is one.
-```
-
-```text
-Read the @context/current-feature.md file and implement the feature.
-```
-
-```text
-Test to see if the data was added using the test script.
-```
-
-```text
-Mark the feature as complete. Commit, merge, push and delete feature branch.
-```
-
-## Show Collections In Dash Prompt
-
-```text
-Add a new feature to the @context/current-feature.md file. Use the feature specs from @context/features/dashboard-collections-spec.md
-```
 
 ```text
 Create a new branch and implement the feature in the @context/current-feature.md file
@@ -115,18 +70,4 @@ Create a new branch and implement the feature in the @context/current-feature.md
 
 ```text
 Mark this feature as completed then commit, merge and push
-```
-
-## Sidebar Feature Prompt
-
-```prompt
-Add a new current feature. Check @context/features/sidebar-spec.md.
-```
-
-```text
-Implement the feature in @context/current-feature.md
-```
-
-```text
-Order and rename the types within the sidebar - Snippets, Prompts, Notes, Files, Images, Links and make the first letter uppercase
 ```

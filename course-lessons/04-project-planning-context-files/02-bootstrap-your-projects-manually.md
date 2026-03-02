@@ -60,4 +60,3 @@ Bash(rm C:/Users/trave/Code/dev/devstash/public/*.svg)
 
 It's just searching and running the `rm` command in a bash terminal just like you would. You'll also see it use `grep` for searching file contents. These are standard terminal utilities that Claude runs on your behalf.
 
-In the next lesson, we will make our first commit and talk a little bit about the Git workflow.

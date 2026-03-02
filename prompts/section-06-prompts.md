@@ -53,28 +53,3 @@ Create a new branch and implement the feature in the @context/current-feature.md
 ```text
 Mark this feature as completed then commit, merge and push
 ```
-
-## Show Items In Dash Prompt
-
-```text
-Add a new feature to the @context/current-feature.md file. Use the feature specs from @context/features/dashboard-items-spec.md
-```
-
-```text
-Create a new branch and implement the feature in the @context/current-feature.md file
-```
-
-```text
-Mark this feature as completed then commit, merge and push
-```
-
-## Stats & Sidebar Feature Prompt
-
-```prompt
-Add a new current feature. Check @context/features/stats-sidebar-spec.md.
-```
-
-```text
-Implement the feature in @context/current-feature.md
-```
-

@@ -49,8 +49,3 @@ On the cards at /collections and dashboard, have the 3 dots icon show a dropdown
 Move the Account actions, which include the delete account and forgot password from the profile to the settings page.
 ```
 
-## Mark Favorites
-
-```text
-Use the Neon MCP to mark half of the collections and items as favorites
-```

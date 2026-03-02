@@ -1,4 +1,4 @@
-# Code Highlighting
+# Monaco Code Editor Integration
 
 We want to display snippets with code highlighting. We will use the Monaco package, which is an inline code editor with syntax highlighting. We will use when we view and edit snippets.
 

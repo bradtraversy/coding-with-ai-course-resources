@@ -20,7 +20,7 @@ Generally, what I like to put are the following:
 
 So let's add the following to the `CLAUDE.md` file:
 
-````markdown
+```markdown
 # DevStash
 
 A developer knowledge hub for snippets, prompts, commands, notes, files, images, links and custom item types.
@@ -52,9 +52,7 @@ npm run dev      # Start dev server
 npm run build    # Build for production
 npm run lint     # Run ESLint
 ```
-````
 
-````
 
 ## Project Spec -> Project Overview Context
 
