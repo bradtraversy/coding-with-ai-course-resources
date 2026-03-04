@@ -54,7 +54,8 @@ Use the @ui-reviewer subagent to check the websites user interface and give feed
 ## Stripe Integration Docs Prompt
 
 ```text
-Create two feature spec files for Stripe integration - Phase 1 (core infrastructure) and Phase 2 (integration & UI). Use @docs/stripe-integration-plan.md for reference. Phase 1 should include unit tests for usage-limits module. Phase 2 covers webhooks, feature gating, and UI components that require Stripe CLI for testing. ```
+Create two feature spec files for Stripe integration - Phase 1 (core infrastructure) and Phase 2 (integration & UI). Use @docs/stripe-integration-plan.md for reference. Phase 1 should include unit tests for usage-limits module. Phase 2 covers webhooks, feature gating, and UI components that require Stripe CLI for testing. 
+```
 
 ## Feature Gate Prompts
 
@@ -80,10 +81,4 @@ We need a clear way to upgrade the user. Free users should see a button in the h
 I also want the /upgrade page to show when a free user goes to items/images or items/files. Remove the current page that shows now
 ```
 
-
-## Code Review Prompt
-
-```
-Scan the codebase for things like security issues, optimizations, repeated code and anything else that you think can be improved. Be clear and concise in your response. Do not include things that just have not been implemented and no false positives. Verify that these are actual issues.
-```
 

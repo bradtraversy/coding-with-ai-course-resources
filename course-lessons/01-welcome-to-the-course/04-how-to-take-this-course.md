@@ -1,12 +1,18 @@
 
 # How To Take This Course
 
-I want to touch on something real quick because I think there are multiple ways to take this course and different levels of benefiting from it.
+I want to touch on something real quick because I think there are multiple ways to take this course and different levels of benefiting from it. 
 
-1. Take it front to back: The first option is to follow along with every single video and build the Devstash project with me using the same tools, which would be Claude Code. I said and I'll keep saying that your result does not have to and will not be identical to mine. Even if you use the same tools and prompts and feature spec files, it will still create different code. And that is 100% fine. In fact, it's better because it's more realistic and you may have issues that you need to solve on your own. It shouldn't be too hard to fix bugs because you have AI at your disposal and you should already know the fundamentals of what you're building. 
+My main goal for this course is to give you an AI workflow. Usually, in the world of computer science, you have very specific ways to do stuff. In code, you have certain classes and methods and patterns. With the command line, you have specific commands and arguments that do certain things. Well, when it comes to managing how to work with AI, it's really the wild west. You ask 10 different developers how they manage their project, you'll get 10 different answers.
 
-Now I understand that some of you may not be JavaScript developers, hell you may not even be web developers. Which is also ok, because you can use the workflow I'll teach you with any project of any kind. 
+I want to do two things in this course, one is to give you a strict workflow where you build feature-by-feature using custom commands in Claude Code or whatever your tool is. This includes managing Git, documenting, implementing, testing, iterating and reviewing as well as managing context. You can get most of this workflow down by the halfway point of the course. So this isn't something where all of you need to watch every single video and follow along to a Tee. However, at the same time, when i create a course with a project, I have to complete it. I have to give you something to build start to finish. You don't have to do that, but I have to give it to you. So the second half is really just using the workflow that I gave you to create this Devstash SaaS project. And I mean create it and deploy it. Just like I would on my own. I wanted to give you a peak into what I do off camera. 
 
-2. Take the course up to section 10: The reason I say this is because everything from section 1 to 10 is related to learning the AI workflow. This includes context files, custom commands or skills, MCP servers, subagents, using AI for unit testing all that stuff. After section 10, we continue to use that stuff we learned to finish the Devstash project. So all the learning bits of AI is 1-10 and then 10-15 is more using what we learned to create and finish the project we started. 
+With that said, some of you may not want to sit through 16 hours of my AI coding. But it's there if you do. And I don't just prompt and not explain everything. I narrate what the model is doing, what files and components it's creating. We run migrations, make architectural decisions and audit our code. 
 
-3. Just watch and not follow along: In all of my other courses, I say follow along and write the code with me line by line. I'm gonna loosen that up a bit for this course, because we aren't learning syntax that you have to type. We're learning a way to do things using AI. So I think you can still gain a lot just from watching. I think you could watch it while using a treadmill or something. I just wouldn't suggest only listening like you would a podcast, because these are things you need to visually see.
+You can either watch and learn the workflow and move on or you can follow along the entire project and get all kinds of nuggets of information on putting that workflow into practice.
+
+One of the most important things to understand is if you do follow along, you will not get the same exact result, even if you use the same tools and the same exact prompts and what I call feature spec files. You may get a different architecture that uses different patterns and files, a slightly different UI, etc. So please keep that it mind. It's not like my React or PHP course where you write identical code and get an identical project. There's a lot less hand holding here.
+
+With that said, just try to find your grove in what works best for you to get the most out of this course, because everyone is different. 
+
+Let's start learning about AI.

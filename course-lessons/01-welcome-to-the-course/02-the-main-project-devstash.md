@@ -2,11 +2,31 @@
 
 I want to go over the main project for this course. Now, this is very important... This is not like other course projects where the goal is to match exactly what I have. In my react course, you write the same exact code and end up with the same project. With AI, it's too unpredictable and there are too many variables. Even if you do use the same AI tool and the same LLM and the same exact prompts, you're still probably going to end up with something different. That's just how it goes. So don't look at this as your end result needs to match mine. Look at it as you are creating your own version of the same app.
 
-With that said, I still want to show you what I ended up with. Your project will be similar but may not look the exact same and definitely won't have the same exact code.
+With that said, I still want to show you what I ended up with. Your project will be similar abd will use the same stack, but may not look the exact same and definitely won't have the same exact code.
 
 ## About Devstash
 
-So Devstash is a project that I actually wanted to create. Normally, as developers, we have stuff scattered everywhere. Code snippets in our editor and multiple files, prompts in our AI tools, commands in the terminal and files, links in bookmarks, notes in whatever note app. I wanted a single place for all your developer related resources. It uses Next.js, Prisma, Neon Postgres, ShadCN UI, Tailwind, Redis, Vercel for productions, Cloudflare R2 for file storage, Vitest for unit testing and a bunch of other smaller libraries.
+So, to give you a brief overview of what this project is, it's called Devstash and it is a project that I actually wanted to create for a while. Normally, as developers, we have stuff scattered everywhere. Code snippets in our editor and multiple files, prompts in our AI tools, commands in the terminal and files, links in bookmarks, notes in whatever note app. I wanted a single place for all your developer related resources.
+
+Before we get into the demo, let's talk about the tech stack. This isn't a vibe coded project where we let the AI select everything for us. I selected what is basically my favorite stack for most web projects.
+
+## Tech Stack
+
+- Next.js: Our main framework will be Next.js. I'll be using the latest at this time, which is version 16 along with React 19.
+- TypeScript: Of course, we'll be using TypeScript. These days, unless you're an absolute beginner, you should always use TypeScript over regular JavaScript. It's so simple to integrate and is now the default with most Boilerplate setups.
+- Neon PostgreSQL: For a database, we'll be using Neon, which is a serverless Postgres database, and my absolute favorite for pretty much any web app. You can use the free tier for this project, which is very generous and then scale from there if needed. The days of installing Postgres locally or going through some crazy UI to get setup are long gone. A project name and a couple clicks and you're in business. We'll be creating a development branch and a production branch for Devstash.
+- Prisma ORM: To connect and interact with our database within our app, we'll use Prisma. Prisma allows us to create data models and then run migrations to create tables with columns and rows. We then use the Prisma client to run queries and other operations rather than having to use raw SQL.
+- CloudFlare R2: For file and image storage, we'll be using Cloudflare R2, which in my opinion, is easier to setup than something like Amazon S3. It's also compatible with the S3 SDK, so we will be using that.
+- Tailwind & ShadCN UI: For the UI, we'll use Tailwind v4 for styling and ShadCN UI for the reusable UI components.
+- NextAuth: We'll use NextAuth v5 for authentication, which will include email/password login as well as GitHub Oauth. We'll have email verification, forgot password and all the necesseties of authentication and authorization.
+- Claude Code: For our main AI tool and workflow, we'll be using Claude Code. You're welcome to use something else if you want though. I'll talk more about this later.
+
+There will be a bunch of other smaller libraries as well. Resend for email verification, Upstash with Redis for rate limiting, the Stripe SDK for payments and a bunch of other stuff, this is defenitley a real-world project, not a little todo-list course project. We'll also be doing a complete deployment to Vercel.
+
+
+## Demo 
+
+Let's have a very quick look at the demo.
 
 So this is the homepage, which is one of the later things we do. We start on the dashboard first, so let's look at that.
 
