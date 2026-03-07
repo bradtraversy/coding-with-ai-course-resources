@@ -18,6 +18,7 @@ Resources, prompts, lesson notes, feature specs, and more for the **Coding With 
 - [🔄 Development Workflow](#-development-workflow)
 - [🎓 Course Curriculum](#-course-curriculum)
 - [📁 Folder Structure](#-folder-structure)
+- [🔀 AI Tool Equivalents](#-ai-tool-equivalents)
 - [🛠️ Course Project Tech Stack](#️-course-project-tech-stack)
 - [📄 License](#-license)
 
@@ -138,6 +139,7 @@ coding-with-ai-course-resources/
 ├── custom-subagents/        # AI subagent definitions
 ├── legacy-custom-commands/  # Older custom command format (pre-skills)
 ├── diagrams-notes/          # Visual diagrams used in lessons
+├── ai-tool-equivilents.md   # AI tool feature equivalents & comparisons
 ├── CLAUDE.md                # Claude Code project instructions
 └── README.md
 ```
@@ -218,6 +220,24 @@ Visual diagrams used in lesson slides — levels of AI assistance, prototyping, 
 ### `/legacy-custom-commands`
 
 The older custom command format (before Claude Code skills were introduced). Kept for reference.
+
+---
+
+## 🔀 AI Tool Equivalents
+
+The course uses **Claude Code** as the primary AI tool, but all major concepts transfer to other tools. See [`ai-tool-equivilents.md`](ai-tool-equivilents.md) for a full comparison covering:
+
+| Feature | Claude Code | Cursor | Gemini CLI | Codex CLI | Windsurf |
+|---|---|---|---|---|---|
+| **Project context** | `CLAUDE.md` | `.cursor/rules/*.mdc` | `GEMINI.md` | `AGENTS.md` | `.windsurfrules` |
+| **Custom commands** | `.claude/commands/` | `.cursor/commands/` | `.gemini/commands/` | Built-in `/` commands | Workflows (`.md`) |
+| **Skills** | `.claude/skills/` | — | `.gemini/skills/` | `.agents/skills/` | — |
+| **Subagents** | `.claude/agents/` | — | `.gemini/agents/` | `config.toml` | Cascade parallel |
+| **MCP servers** | `claude mcp add` | `.cursor/mcp.json` | `settings.json` | `~/.codex/config.toml` | Settings UI |
+| **Hooks** | `settings.json` | — | — | Partial | — |
+| **Headless mode** | `claude -p` | — | `gemini -p` | `codex exec` | — |
+
+The guide also covers agent mode, parallel agents, session resume, model selection, IDE integration, and pricing.
 
 ---
 
