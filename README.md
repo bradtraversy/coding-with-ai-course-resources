@@ -6,7 +6,7 @@ Resources, prompts, lesson notes, feature specs, and more for the **Coding With 
 
 | | Link |
 | --- | --- |
-| **Course** | Coming Soon |
+| **Course** |  [Coding With AI](https://codingwithaicourse.com) |
 | **DevStash Repo** | [github.com/bradtraversy/devstash](https://github.com/bradtraversy/devstash) |
 
 ---
@@ -261,3 +261,4 @@ The guide also covers agent mode, parallel agents, session resume, model selecti
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
+
