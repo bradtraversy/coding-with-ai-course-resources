@@ -1,72 +1,64 @@
 # What Is AI?
 
-Before we get started learning how to code with AI, let's first define what it is exactly. I won't get into too much theory here, but it's important to know what we're dealing with and there's some important terms you should know.
+Before getting into the workflow side of this course, it's worth taking a moment to define what we're actually working with. I won't go deep into theory, but there are a few concepts and terms that will come up constantly — and understanding them will make everything else click faster.
 
-AI, or Artificial Intelligence, is a broad term for machines that can perform tasks that typically require human intelligence.
+## The Broad Definition
 
-There are different categories of AI.
+Artificial Intelligence is a broad term for machines that can perform tasks that typically require human intelligence. Within that, there are several categories:
 
-**Computer Vision**: AI that processes and interprets visual information from images and video. Facial recognition, self-driving cars, medical imaging, exactly
-**Predictive AI**: Analyzes historical data to identify patterns and forecast future outcomes. Netflix/Spotify recommendations, fraud detection, stock market forecasting
-**Generative AI**: Creates new content that didn't previously exist. Rather than analyzing or predicting, it produces original outputs. Text generation (ChatGPT, Claude), Image generation (Midjourney, DALL-E), code generation (CoPilot, Cursor), audio/voice generation (ElevenLabs), music generation (Suno, Runway), video generation (Sora, Udio)
+**Computer Vision** — AI that processes and interprets visual information from images and video. Think facial recognition, self-driving cars, and medical imaging.
 
-When most people say "AI" today, they're usually talking about **generative AI**. That's the stuff that can create new content - write text, generate images, produce code. Tools like ChatGPT, Claude, Midjourney - that's all generative AI.
+**Predictive AI** — Analyzes historical data to identify patterns and forecast outcomes. Netflix and Spotify recommendations, fraud detection, and stock market forecasting all fall here.
 
-## LARGE LANGUAGE MODELS (LLMs)
+**Generative AI** — Creates new content that didn't previously exist. Rather than analyzing or predicting, it produces original outputs: text (ChatGPT, Claude), images (Midjourney, DALL-E), code (Copilot, Cursor), audio (ElevenLabs), music (Suno), video (Sora).
 
-The AI tools we'll be using in this course are powered by something called **Large Language Models**
+When most people say "AI" today, they mean generative AI. That's what we're using in this course.
 
-At its core, an LLM is a prediction machine. It's been trained on massive amounts of text. It's been trained on billions of web pages, books, articles, code repositories, and it learned patterns in that text. When you give it a prompt, it's predicting what text should come next based on everything it learned.
+## Large Language Models
 
-People think of AI as some conscious entity, but it's not. It's sophisticated pattern matching. Very useful, but not alive. At least yet 😐 Let's move on.
+The tools we'll be working with are powered by **Large Language Models**, or LLMs. At their core, LLMs are prediction machines. They've been trained on billions of web pages, books, articles, and code repositories, and through that training they learned patterns in language and text. When you give one a prompt, it's predicting what text should come next based on everything it absorbed during training.
 
-## HOW LLMs ARE TRAINED
+It's tempting to think of AI as some kind of conscious entity — it's not. It's sophisticated pattern matching. Extremely useful, but not alive. At least not yet.
 
-Here's a simplified version of how these models get built:
+## How LLMs Are Trained
 
-**Step 1: Pre-training**
-The model ingests a massive dataset of text from the internet, books, code, articles - everything. It learns language patterns, facts, reasoning structures, coding syntax. This is the expensive part that costs millions of dollars in compute.
+**Pre-training** — The model ingests a massive dataset of text: the internet, books, code, articles, all of it. It learns language patterns, facts, reasoning structures, and syntax. This is the expensive part, costing millions of dollars in compute.
 
-**Step 2: Fine-tuning**
-The base model gets refined for specific tasks. This is where it learns to be helpful, to follow instructions, to format responses nicely.
+**Fine-tuning** — The base model gets refined for specific tasks, learning to be helpful, follow instructions, and format responses clearly.
 
-**Step 3: RLHF (Reinforcement Learning from Human Feedback)**
-Humans rate the model's responses. "This answer was helpful, this one wasn't." The model learns from that feedback to produce better outputs. This is a big part of why Claude and ChatGPT feel helpful rather than just spitting out random text.
+**RLHF (Reinforcement Learning from Human Feedback)** — Humans rate the model's responses. The model learns from that feedback over time. This is a big reason why tools like Claude and ChatGPT feel genuinely useful rather than just producing raw text.
 
-## WHAT LLMs ARE GOOD AT
+## What LLMs Are Good At
 
 - Explaining concepts in plain language
 - Writing and editing text
-- Generating code in pretty much any language
-- Answering questions and providing information
+- Generating code in virtually any language
+- Answering questions and providing context
 - Brainstorming and ideation
 - Translating between languages
 - Summarizing long documents
-- Following complex instructions
+- Following complex, multi-step instructions
 
-## WHAT LLMs ARE NOT GOOD AT
+## What LLMs Are Not Good At
 
-Let's be real about the limitations:
+**They hallucinate.** LLMs can confidently produce information that sounds correct but isn't. They'll invent API methods that don't exist, cite papers that were never written, or generate code that looks right but has subtle bugs. This is one of the biggest reasons you can't just accept AI output at face value.
 
-**They hallucinate.** LLMs can confidently make up information that sounds correct but isn't. They'll invent API methods that don't exist, cite papers that were never written, or give you code that looks right but has subtle bugs.
+**They don't actually "know" anything.** There's no database of facts inside an LLM — it's all patterns. Sometimes those patterns produce accurate information. Sometimes they don't.
 
-**They don't actually "know" anything.** There's no database of facts in there. It's all patterns. Sometimes those patterns produce accurate information, sometimes they don't.
+**They don't learn during a conversation.** You can correct an LLM mid-session and it will adjust, but it doesn't actually retain that learning. Start a new conversation and the same mistakes are possible.
 
-**They can't learn during a conversation.** If you correct an LLM, it might adjust in that conversation, but it doesn't actually learn. Next conversation, same mistakes are possible.
+**They have knowledge cutoffs.** Models are trained on data up to a certain point in time. Anything after that date is unknown to them unless they have access to search tools.
 
-**They have knowledge cutoffs.** The model was trained on data up to a certain date. Anything after that, it doesn't know unless it has access to search.
+**Their "reasoning" isn't what you think.** When an LLM works through a problem, it's still doing pattern matching — not logic in the way humans do logic. This produces impressive results a lot of the time, but it also fails in unexpected ways.
 
-**They're not reasoning the way you think.** When an LLM "thinks through" a problem, it's still doing pattern matching. It's not logic in the way humans do logic. Sometimes this produces great results, sometimes it fails in weird ways.
+## Key Players
 
-## KEY PLAYERS YOU SHOULD KNOW
+**OpenAI** — Created ChatGPT and the GPT model series. They kicked off this era with ChatGPT's release in late 2022.
 
-**OpenAI** - Created ChatGPT and the GPT model series. They kicked off this whole era with ChatGPT in late 2022.
+**Anthropic** — Created Claude, which we'll be using heavily in this course. Founded by former OpenAI researchers with a strong focus on AI safety.
 
-**Anthropic** - Created Claude (what we'll be using a lot in this course). Founded by former OpenAI researchers with a focus on AI safety.
+**Google** — Has Gemini (formerly Bard), and does significant foundational AI research.
 
-**Google** - Has Gemini (formerly Bard). Also does a lot of foundational AI research.
+**Meta** — Released LLaMA as open source. A large number of other tools are built on top of it.
 
-**Meta** - Released LLaMA, which is open source. A lot of other tools are built on top of it.
-
-**Smaller Players** - Mistral, Cohere, and others making solid models, especially in the open source space.
-
+**Others** — Mistral, Cohere, and a growing number of smaller players, particularly in the open-source space.
