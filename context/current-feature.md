@@ -19,5 +19,3 @@ Not Started
 ## History
 
 <!-- Keep this updated. Earliest to latest -->
-
-- Project setup and boilerplate cleanup
