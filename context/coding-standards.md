@@ -46,6 +46,7 @@ Example v4 configuration:
 @theme {
   --color-primary: oklch(50% 0.2 250);
 }
+```
 
 ## File Organization
 
@@ -94,4 +95,3 @@ Example v4 configuration:
 - No commented-out code unless specified
 - No unused imports or variables
 - Keep functions under 50 lines when possible
-```
